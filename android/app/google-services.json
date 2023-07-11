@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "839449006451",
+    "project_id": "real-time-chatify",
+    "storage_bucket": "real-time-chatify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839449006451:android:cfe1588b9a44a9cbb6f506",
+        "android_client_info": {
+          "package_name": "com.example.real_time_chatify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839449006451-6p9m7rjb5hd2nblqc5v0skdnpse77aat.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArFVQ665_hdzdg8b0caSW9LOEZ9DQ3pZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839449006451-6p9m7rjb5hd2nblqc5v0skdnpse77aat.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "839449006451-u01jpfs0mvv0lm2ldsknq63isu7frsqi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.realTimeChatify"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

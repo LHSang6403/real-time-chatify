@@ -1,0 +1,43 @@
+name: real_time_chatify
+description: A new Flutter project.
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  firebase_core: ^2.14.0
+  firebase_storage: ^11.2.4
+  firebase_auth: ^4.6.3
+  firebase_analytics: ^10.4.3
+  cloud_firestore: ^4.8.2
+  provider: ^6.0.5
+  get_it: ^7.6.0
+  file_picker: ^5.3.2
+  flutter_spinkit: ^5.2.0
+  timeago: ^3.5.0
+  flutter_keyboard_visibility: ^5.4.1
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+  - assets/images/
+
