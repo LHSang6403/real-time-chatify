@@ -19,10 +19,10 @@ class CustomTextField extends StatelessWidget {
       cursorColor: Colors.white,
       style: const TextStyle(color: Colors.white),
       obscureText: obscureText,
-      validator: (value){
+      validator: (value) {
         return RegExp(regEx).hasMatch(value!) ? null : "Invalid Input";
       },
-      decoration:  InputDecoration(
+      decoration: InputDecoration(
         fillColor: const Color.fromRGBO(30, 29, 37, 1.0),
         filled: true,
         border: OutlineInputBorder(
@@ -32,7 +32,6 @@ class CustomTextField extends StatelessWidget {
         hintText: hintText,
         hintStyle: const TextStyle(color: Colors.white54),
       ),
-
     );
   }
 }

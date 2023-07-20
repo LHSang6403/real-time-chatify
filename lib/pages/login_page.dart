@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+import 'package:real_time_chatify/providers/authentication_provider.dart';
+import 'package:real_time_chatify/services/navigation_service.dart';
 import 'package:real_time_chatify/widgets/input_fields.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
 
@@ -12,6 +16,12 @@ class _LoginPageState extends State<LoginPage> {
   late double _width;
   final _loginFormKey = GlobalKey<FormState>();
 
+  late AuthenticationProvider _auth;
+  late NavigationService _nav;
+
+  String? _email;
+  String? _password;
+
   @override
   void initState() {
     super.initState();
@@ -21,6 +31,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _nav = GetIt.instance.get<NavigationService>();
     return _buildLoginForm();
   }
 
@@ -71,14 +83,22 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               CustomTextField(
-                onSaved: (value) {},
-                regEx: r"[a-zA-Z0-9]+",
+                onSaved: (value) {
+                  //setState(() {
+                  _email = value;
+                  //});
+                },
+                regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                 hintText: 'Email',
                 obscureText: false,
               ),
               CustomTextField(
-                onSaved: (value) {},
-                regEx: r".{8,}",
+                onSaved: (value) {
+                  //setState(() {
+                  _password = value;
+                  //});
+                },
+                regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
                 hintText: 'Password',
                 obscureText: true,
               ),
@@ -92,17 +112,20 @@ class _LoginPageState extends State<LoginPage> {
         buttonName: "Login",
         height: _height * 0.055,
         width: _width * 0.4,
-        onPressed: () {});
+        onPressed: () {
+          if (_loginFormKey.currentState!.validate()) {
+            _loginFormKey.currentState!.save();
+            //print('Email: $_email, Password: $_password');
+            _auth.loginUsingEmailAndPassword(_email!, _password!);
+          }
+        });
   }
 
   Widget _registerAccountLink() {
     return GestureDetector(
-      onTap: () {
-        print('Register account link pressed');
-      },
-      child: TextButton(
-        onPressed: () {},
-        child: const Text(
+      onTap: () => _nav.route('/register'),
+      child: const SizedBox(
+        child: Text(
           'Don have an account?',
           style: TextStyle(color: Colors.blueAccent),
         ),
