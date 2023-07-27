@@ -9,34 +9,35 @@ const String USER_COLLECTION = 'Users';
 class CloudStorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  CloudStorageService() {}
+  CloudStorageService();
 
-  Future<String?> saveUserImgToStorage(
-      String _userId, PlatformFile _file) async {
+  Future<String?> saveUserImgToStorage(String userId, PlatformFile file) async {
     try {
-      Reference _ref = _storage
+      Reference ref = _storage
           .ref()
-          .child('images/users/$_userId/profile.{$_file.extension}}');
-      UploadTask _uploadTask = _ref.putFile(
-        File(_file.path!),
+          .child('images/users/$userId/profile.${file.extension}');
+      UploadTask uploadTask = ref.putFile(
+        File(file.path!),
       );
-      return await _uploadTask.then((res) => res.ref.getDownloadURL());
+      return await uploadTask.then((res) => res.ref.getDownloadURL());
     } catch (e) {
       print(e);
     }
+    return "";
   }
 
   Future<String?> saveChatImgToStorage(
-      String _chatId, String _userId, PlatformFile _file) async {
+      String chatId, String userId, PlatformFile file) async {
     try {
-      Reference _ref = _storage.ref().child(
-          'images/chats/$_chatId/${_userId}_${Timestamp.now().microsecondsSinceEpoch}/profile.{${_file.extension}}');
-      UploadTask _uploadTask = _ref.putFile(
-        File(_file.path!),
+      Reference ref = _storage.ref().child(
+          'images/chats/$chatId/${userId}_${Timestamp.now().microsecondsSinceEpoch}/profile.${file.extension}');
+      UploadTask uploadTask = ref.putFile(
+        File(file.path!),
       );
-      return await _uploadTask.then((res) => res.ref.getDownloadURL());
+      return await uploadTask.then((res) => res.ref.getDownloadURL());
     } catch (e) {
       print(e);
     }
+    return "";
   }
 }

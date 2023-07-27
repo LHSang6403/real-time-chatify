@@ -1,7 +1,8 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:real_time_chatify/controllers/register_controller.dart';
 import 'package:real_time_chatify/providers/authentication_provider.dart';
 import 'package:real_time_chatify/services/cloud_storage_service.dart';
 import 'package:real_time_chatify/services/database_service.dart';
@@ -12,7 +13,7 @@ import 'package:real_time_chatify/widgets/rounded_button.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -27,15 +28,14 @@ class _RegisterPageState extends State<RegisterPage> {
   late CloudStorageService _cloudStorageService;
   late NavigationService _navigationService;
 
-  String? _email;
-  String? _password;
-  String? _name;
-  PlatformFile? profileImage;
-
+  //final RegisterController registerController = Get.find();
   final registerFormKey = GlobalKey<FormState>();
+
+  final registerController = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
+    print('re-building register page');
     _authService = Provider.of<AuthenticationProvider>(context);
     _databaseService = GetIt.instance.get<DatabaseService>();
     _cloudStorageService = GetIt.instance.get<CloudStorageService>();
@@ -78,20 +78,13 @@ class _RegisterPageState extends State<RegisterPage> {
     return GestureDetector(
       onTap: () {
         GetIt.instance.get<MediaService>().getImgFromLibrary().then((file) {
-          setState(() {
-            profileImage = file;
-          });
+          registerController.setProfileImage(file!);
         });
       },
       child: () {
-        if (profileImage != null) {
-          return AssetRoundedImage(
-              profileImage: profileImage!, imageSize: _height * 0.15);
-        }
-        return NetworkRoundedImage(
-            imagePath:
-                "https://cdn-icons-png.flaticon.com/512/5024/5024509.png",
-            imageSize: _height * 0.15);
+        return Obx(() => AssetRoundedImage(
+            profileImage: registerController.getProfileImage(),
+            imageSize: _height * 0.15));
       }(),
     );
   }
@@ -107,10 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
             children: [
               CustomTextField(
                 onSaved: (value) {
-                  setState(() {
-                    _name = value;
-                    print(_name);
-                  });
+                  registerController.setName(value);
                 },
                 regEx: r'^[a-zA-ZÀ-ÿ\s]{1,50}$',
                 hintText: "Enter your name",
@@ -121,10 +111,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               CustomTextField(
                 onSaved: (value) {
-                  setState(() {
-                    _email = value;
-                    print(_email);
-                  });
+                  registerController.setEmail(value);
                 },
                 regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                 hintText: "Enter your email",
@@ -135,10 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               CustomTextField(
                 onSaved: (value) {
-                  setState(() {
-                    _password = value;
-                    print(_password);
-                  });
+                  registerController.setPassword(value);
                 },
                 regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
                 hintText: "Enter your password",
@@ -155,15 +139,25 @@ class _RegisterPageState extends State<RegisterPage> {
         height: _height * 0.065,
         width: _width * 0.65,
         onPressed: () async {
-          if (registerFormKey.currentState!.validate() &&
-              profileImage != null) {
-            print("Register: $_email, $_name");
-            String? userId =
-                await _authService.registerUser(_email!, _password!);
+          if (registerFormKey.currentState!.validate()) {
+            registerFormKey.currentState!.save();
+            print(
+                "Register: ${registerController.getEmail()}, ${registerController.getPassword()}");
+            String? userId = await _authService.registerUser(
+                registerController.getEmail(),
+                registerController.getPassword());
             String? imgUrl = await _cloudStorageService.saveUserImgToStorage(
-                userId!, profileImage!);
-            await _databaseService.createUser(userId, _email!, _name!, imgUrl!);
-            _navigationService.routeBack();
+                userId!, registerController.getProfileImage());
+            await _databaseService.createUser(
+                userId,
+                registerController.getEmail(),
+                registerController.getName(),
+                imgUrl!);
+            await _authService.logOut();
+            await _authService.loginUsingEmailAndPassword(
+                registerController.getEmail(),
+                registerController.getPassword());
+            //_navigationService.routeBack();
           }
         });
   }

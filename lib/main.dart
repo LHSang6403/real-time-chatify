@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:provider/provider.dart';
-import 'package:real_time_chatify/pages/home_page.dart';
 import 'package:real_time_chatify/pages/login_page.dart';
+import 'package:real_time_chatify/pages/main_page.dart';
 import 'package:real_time_chatify/pages/register_page.dart';
 import 'package:real_time_chatify/providers/authentication_provider.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
@@ -23,7 +22,7 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthenticationProvider>(
-          create: (BuildContext _context) => AuthenticationProvider(),
+          create: (BuildContext context) => AuthenticationProvider(),
         ),
       ],
       child: MaterialApp(
@@ -41,7 +40,7 @@ class MainApp extends StatelessWidget {
           routes: {
             '/login': (context) => LoginPage(),
             '/register': (context) => RegisterPage(),
-            '/home': (context) => HomePage(),
+            '/main': (context) => MainPage(),
           }),
     );
   }

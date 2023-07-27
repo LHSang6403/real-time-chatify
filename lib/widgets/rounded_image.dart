@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +24,42 @@ class NetworkRoundedImage extends StatelessWidget {
         ),
         color: Colors.black,
       ),
+    );
+  }
+}
+
+class NetworkRoundedImageWithStatus extends NetworkRoundedImage {
+  final bool isActive;
+
+  NetworkRoundedImageWithStatus({
+    Key? key,
+    required String imagePath,
+    required double imageSize,
+    required this.isActive,
+  }) : super(imagePath: imagePath, imageSize: imageSize);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        super.build(context),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            height: 16,
+            width: 16,
+            decoration: BoxDecoration(
+              color: isActive ? Colors.green : Colors.red,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: const Color.fromRGBO(30, 29, 37, 1.0),
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

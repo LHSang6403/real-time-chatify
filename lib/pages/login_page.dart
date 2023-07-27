@@ -84,9 +84,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               CustomTextField(
                 onSaved: (value) {
-                  //setState(() {
                   _email = value;
-                  //});
                 },
                 regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                 hintText: 'Email',
@@ -94,9 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               CustomTextField(
                 onSaved: (value) {
-                  //setState(() {
                   _password = value;
-                  //});
                 },
                 regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
                 hintText: 'Password',

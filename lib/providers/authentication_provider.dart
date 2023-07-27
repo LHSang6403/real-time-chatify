@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:real_time_chatify/models/chat_user.dart';
+import 'package:real_time_chatify/models/user.dart';
 import 'package:real_time_chatify/services/database_service.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
 
@@ -17,28 +17,25 @@ class AuthenticationProvider extends ChangeNotifier {
     _auth = FirebaseAuth.instance;
     _navigationService = GetIt.instance<NavigationService>();
     _databaseService = GetIt.instance<DatabaseService>();
-    logOut();
+    //logOut();
     _auth.authStateChanges().listen((_user) {
       if (_user != null) {
         _databaseService.updateUserLastTime(_user.uid);
-        _databaseService.getUser(_user.uid).then((snapshot) {
-          Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
 
-          data['user_id'] = _user.uid;
-          chatUser = ChatUser.fromJSON({
-            "user_id": data['user_id'],
-            "name": data["name"],
-            "email": data["email"],
-            "last_active": data["last_active"].toDate(),
-            "image": data["image"],
-          });
-          //print(chatUser.toMap());
-          _navigationService.removeAndRoute('/home');
-        });
-
+        chatUser = ChatUser.fromJSON(
+          {
+            "user_id": _user.uid,
+            "name": _user.providerData.first.displayName,
+            "email": _user.providerData.first.email,
+            "last_active": _user.metadata.lastSignInTime,
+            "image": _user.providerData.first.photoURL,
+          },
+        );
+        _navigationService.route('/main');
         print('Logged in');
       } else {
         print('Not logged in');
+        _navigationService.removeAndRoute('/login');
       }
     });
   }
@@ -56,7 +53,7 @@ class AuthenticationProvider extends ChangeNotifier {
     try {
       await _auth.signInWithEmailAndPassword(
           email: _email, password: _password);
-      //print(_auth.currentUser);
+      print(_auth.currentUser);
     } on FirebaseAuthException {
       print('Failed to sign in Firebase with Email & Password');
     } catch (e) {
