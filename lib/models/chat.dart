@@ -31,11 +31,27 @@ class Chat {
     }
   }
 
+  String getSubTitle() {
+    String result = "";
+    if (messages.isNotEmpty) {
+      result = messages.first.type != MessageType.text
+          ? "Attachment"
+          : messages.first.message;
+    } else {
+      result = "No messages";
+    }
+    return result;
+  }
+
   String getImageUrl() {
     if (isGroup) {
       return "https://cdn-icons-png.flaticon.com/512/6387/6387947.png";
     } else {
       return receivers.first.imageUrl;
     }
+  }
+
+  bool getActiveStatus() {
+    return receivers.any((person) => person.wasRecentlyActive());
   }
 }

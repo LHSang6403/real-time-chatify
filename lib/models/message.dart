@@ -6,7 +6,7 @@ class Message {
   final String senderId;
   MessageType type;
   final String message;
-  final DateTime sentTime;
+  final Timestamp sentTime;
 
   Message(
       {required this.senderId,
@@ -27,10 +27,10 @@ class Message {
         msgType = MessageType.unknown;
     }
     return Message(
-        senderId: json["senderId"],
+        senderId: json["sender_id"],
         type: msgType,
-        message: json["message"],
-        sentTime: json["sentTime"].toDate());
+        message: json["content"],
+        sentTime: json["sent_time"]);
   }
 
   Map<String, dynamic> toJSON() {
@@ -38,7 +38,7 @@ class Message {
       "senderId": senderId,
       "type": type.toString() == "default" ? "" : type.toString(),
       "message": message,
-      "sentTime": Timestamp.fromDate(sentTime)
+      "sentTime": sentTime,
     };
   }
 }

@@ -25,9 +25,7 @@ class TopBar extends StatelessWidget {
   }
 
   Widget buildUI(BuildContext context, double height, double width) {
-    return Container(
-      padding: EdgeInsets.only(
-          left: width * 0.06, right: width * 0.06, top: width * 0.09),
+    return SizedBox(
       height: height * 0.12,
       width: width,
       child: Row(
@@ -36,11 +34,15 @@ class TopBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (action2 != null) action2!,
-          Text(title,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: fontSize ?? width * 0.08,
-                  fontWeight: FontWeight.bold)),
+          SizedBox(
+            width: width * 0.5,
+            child: Text(title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize ?? width * 0.08,
+                    fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis),
+          ),
           if (action1 != null) action1!,
         ],
       ),

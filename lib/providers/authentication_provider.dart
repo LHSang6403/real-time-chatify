@@ -27,7 +27,7 @@ class AuthenticationProvider extends ChangeNotifier {
             "user_id": _user.uid,
             "name": _user.providerData.first.displayName,
             "email": _user.providerData.first.email,
-            "last_active": _user.metadata.lastSignInTime,
+            "last_active": Timestamp.fromDate(_user.metadata.lastSignInTime!),
             "image": _user.providerData.first.photoURL,
           },
         );

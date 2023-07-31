@@ -1,10 +1,12 @@
 import "package:flutter/material.dart";
+import "package:get_it/get_it.dart";
 import "package:provider/provider.dart";
-import 'package:real_time_chatify/models/user.dart';
+import "package:real_time_chatify/models/chat.dart";
+import "package:real_time_chatify/pages/conversation_page.dart";
 import "package:real_time_chatify/providers/authentication_provider.dart";
 import "package:real_time_chatify/providers/chats_page_provider.dart";
+import "package:real_time_chatify/services/navigation_service.dart";
 import "package:real_time_chatify/widgets/custom_list_view.dart";
-import "package:real_time_chatify/widgets/message_card.dart";
 import "package:real_time_chatify/widgets/topbar.dart";
 
 class ChatsPage extends StatefulWidget {
@@ -17,20 +19,15 @@ class ChatsPage extends StatefulWidget {
 class _ChatsPageState extends State<ChatsPage> {
   late AuthenticationProvider auth;
   late ChatsPageProvider chatsPageProvider;
+  late NavigationService navigationService;
 
-  ChatUser chatUser = ChatUser(
-      userId: "1",
-      name: "John Doe",
-      email: "",
-      imageUrl:
-          "https://img.freepik.com/premium-photo/young-handsome-man-with-beard-isolated-keeping-arms-crossed-frontal-position_1368-132662.jpg?w=360",
-      lastActive: DateTime.now());
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     auth = Provider.of<AuthenticationProvider>(context);
+    navigationService = GetIt.instance.get<NavigationService>();
 
     return MultiProvider(providers: [
       ChangeNotifierProvider<ChatsPageProvider>(
@@ -48,13 +45,20 @@ class _ChatsPageState extends State<ChatsPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TopBar(
-              title: "Chats",
-              action1: IconButton(
-                  onPressed: () {
-                    auth.logOut();
-                  },
-                  icon: const Icon(Icons.logout)),
+            Container(
+              padding: EdgeInsets.only(
+                  left: width * 0.05,
+                  right: width * 0.05,
+                  top: height * 0.02,
+                  bottom: 0.0),
+              child: TopBar(
+                title: "Chats",
+                action1: IconButton(
+                    onPressed: () {
+                      auth.logOut();
+                    },
+                    icon: const Icon(Icons.logout)),
+              ),
             ),
             chatsList(height, width),
           ],
@@ -64,18 +68,42 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   Widget chatsList(double height, double width) {
-    return Expanded(child: chatTile(height, width));
+    List<Chat> chats = chatsPageProvider.chats;
+
+    return Expanded(
+      child: () {
+        return chats != null
+            ? chats.isNotEmpty
+                ? ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: chats.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return chatTile(chats[index], height, width);
+                    },
+                  )
+                : const Center(
+                    child: Text("No chat"),
+                  )
+            : const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              );
+      }(),
+    );
   }
 
-  Widget chatTile(double height, double width) {
+  Widget chatTile(Chat chat, double height, double width) {
     return CustomListTile(
         height: height * 0.05,
-        width: width,
-        title: "Sang Le",
-        subtitle: "ajsdbhgfjkhdsnfkjsndf",
-        imgUrl: "https://i.pravatar.cc/300",
-        isActive: true,
-        isActivity: false,
-        onTap: () {});
+        width: width * 0.9,
+        title: chat.getChatName(),
+        subtitle: chat.getSubTitle(),
+        imgUrl: chat.getImageUrl(),
+        isActive: chat.getActiveStatus(),
+        isActivity: chat.isActive,
+        onTap: () {
+          navigationService.routeToPage(ConversationPage(chat: chat));
+        });
   }
 }

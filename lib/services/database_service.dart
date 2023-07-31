@@ -10,13 +10,13 @@ class DatabaseService {
   DatabaseService() {}
 
   Future<void> createUser(
-      String _userId, String _email, String _name, String _imgURL) async {
+      String userId, String email, String name, String imgUrl) async {
     try {
-      await _db.collection(USER_COLLECTION).doc(_userId).set({
-        'email': _email,
-        'name': _name,
-        'imgURL': _imgURL,
-        'last_active': DateTime.now().toUtc(),
+      await _db.collection(USER_COLLECTION).doc(userId).set({
+        'email': email,
+        'name': name,
+        'imgUrl': imgUrl,
+        'last_active': Timestamp.now(),
       });
     } catch (e) {
       print(e);
@@ -29,7 +29,7 @@ class DatabaseService {
 
   Stream<QuerySnapshot> getChatForUser(String userId) {
     return _db
-        .collection(USER_COLLECTION)
+        .collection(CHAT_COLLECTION)
         .where(
           'members',
           arrayContains: userId,
@@ -37,20 +37,20 @@ class DatabaseService {
         .snapshots();
   }
 
-  Stream<QuerySnapshot> getLastMessages(String chatId) {
+  Future<QuerySnapshot> getLastMessage(String chatId) {
     return _db
         .collection(CHAT_COLLECTION)
         .doc(chatId)
         .collection(MESSAGES_COLLECTION)
         .orderBy('sent_time', descending: true)
         .limit(1)
-        .snapshots();
+        .get();
   }
 
   Future<void> updateUserLastTime(String userId) async {
     try {
       await _db.collection(USER_COLLECTION).doc(userId).update({
-        'last_active': DateTime.now().toUtc(),
+        'last_active': Timestamp.now(),
       });
     } catch (e) {
       print(e);

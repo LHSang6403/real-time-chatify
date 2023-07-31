@@ -5,7 +5,6 @@ import 'package:real_time_chatify/pages/main_page.dart';
 import 'package:real_time_chatify/pages/register_page.dart';
 import 'package:real_time_chatify/providers/authentication_provider.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
-
 import 'pages/splash_page.dart';
 
 void main() {

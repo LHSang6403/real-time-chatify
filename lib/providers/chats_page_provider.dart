@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -17,7 +16,6 @@ class ChatsPageProvider extends ChangeNotifier {
 
   ChatsPageProvider(this.auth) {
     db = GetIt.instance.get<DatabaseService>();
-
     getChats();
   }
 
@@ -30,23 +28,26 @@ class ChatsPageProvider extends ChangeNotifier {
   void getChats() async {
     try {
       chatsStream =
-          db.getChatForUser(auth.chatUser.userId).listen((snap) async {
-        chats = await Future.wait(snap.docs.map((doc) async {
+          db.getChatForUser(auth.chatUser.userId).listen((snapshot) async {
+        chats = await Future.wait(snapshot.docs.map((doc) async {
           Map<String, dynamic> chatData = doc.data() as Map<String, dynamic>;
 
           List<ChatUser> members = [];
           for (var id in chatData["members"]) {
             DocumentSnapshot userDoc = await db.getUser(id);
-            Map<String, dynamic> userData =
-                userDoc.data() as Map<String, dynamic>;
-            members.add(ChatUser.fromJSON(userData));
+            if (userDoc.data() != null) {
+              Map<String, dynamic> userData =
+                  userDoc.data() as Map<String, dynamic>;
+              userData["user_id"] = userDoc.id;
+              members.add(ChatUser.fromJSON(userData));
+            }
           }
 
           List<Message> messages = [];
-          QuerySnapshot chatMessages = await db.getLastMessages(doc.id).first;
-          if (chatMessages.docs.isNotEmpty) {
+          QuerySnapshot chatMessage = await db.getLastMessage(doc.id);
+          if (chatMessage.docs.isNotEmpty) {
             Map<String, dynamic> messageData =
-                chatMessages.docs.first.data()! as Map<String, dynamic>;
+                chatMessage.docs.first.data()! as Map<String, dynamic>;
             Message messagesTmp = Message.fromJSON(messageData);
             messages.add(messagesTmp);
           }
@@ -56,7 +57,7 @@ class ChatsPageProvider extends ChangeNotifier {
               currentUserId: auth.chatUser.userId,
               users: members,
               messages: messages,
-              isActive: chatData["is_active"],
+              isActive: chatData["is_activity"],
               isGroup: chatData["is_group"]);
         }).toList());
         notifyListeners();

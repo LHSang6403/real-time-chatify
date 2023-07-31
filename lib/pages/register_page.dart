@@ -35,7 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('re-building register page');
     _authService = Provider.of<AuthenticationProvider>(context);
     _databaseService = GetIt.instance.get<DatabaseService>();
     _cloudStorageService = GetIt.instance.get<CloudStorageService>();
@@ -141,8 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
         onPressed: () async {
           if (registerFormKey.currentState!.validate()) {
             registerFormKey.currentState!.save();
-            print(
-                "Register: ${registerController.getEmail()}, ${registerController.getPassword()}");
+
             String? userId = await _authService.registerUser(
                 registerController.getEmail(),
                 registerController.getPassword());
