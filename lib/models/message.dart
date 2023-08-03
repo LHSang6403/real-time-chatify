@@ -3,18 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 enum MessageType { text, image, unknown }
 
 class Message {
-  final String senderId;
+  final String sender_id;
   MessageType type;
   final String message;
-  final Timestamp sentTime;
+  final Timestamp sent_time;
 
   Message(
-      {required this.senderId,
+      {required this.sender_id,
       required this.type,
       required this.message,
-      required this.sentTime});
+      required this.sent_time});
 
-  factory Message.fromJSON(Map<String, dynamic> json) {
+  factory Message.fromJson(Map<String, dynamic> json) {
     MessageType msgType;
     switch (json["type"]) {
       case "text":
@@ -27,18 +27,29 @@ class Message {
         msgType = MessageType.unknown;
     }
     return Message(
-        senderId: json["sender_id"],
+        sender_id: json["sender_id"],
         type: msgType,
         message: json["content"],
-        sentTime: json["sent_time"]);
+        sent_time: json["sent_time"]);
   }
 
-  Map<String, dynamic> toJSON() {
+  Map<String, dynamic> toJson() {
+    String msgType;
+    switch (type) {
+      case MessageType.text:
+        msgType = "text";
+        break;
+      case MessageType.image:
+        msgType = "image";
+        break;
+      default:
+        msgType = "default";
+    }
     return {
-      "senderId": senderId,
-      "type": type.toString() == "default" ? "" : type.toString(),
-      "message": message,
-      "sentTime": sentTime,
+      "sender_id": sender_id,
+      "type": msgType,
+      "content": message,
+      "sent_time": sent_time,
     };
   }
 }

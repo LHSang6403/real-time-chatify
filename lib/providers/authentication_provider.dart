@@ -20,7 +20,7 @@ class AuthenticationProvider extends ChangeNotifier {
     //logOut();
     _auth.authStateChanges().listen((_user) {
       if (_user != null) {
-        _databaseService.updateUserLastTime(_user.uid);
+        _databaseService.updateUserLastSeenTime(_user.uid);
 
         chatUser = ChatUser.fromJSON(
           {

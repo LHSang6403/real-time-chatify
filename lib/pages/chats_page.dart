@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:get_it/get_it.dart";
 import "package:provider/provider.dart";
 import "package:real_time_chatify/models/chat.dart";
-import "package:real_time_chatify/pages/conversation_page.dart";
+import 'package:real_time_chatify/pages/chat_page.dart';
 import "package:real_time_chatify/providers/authentication_provider.dart";
 import "package:real_time_chatify/providers/chats_page_provider.dart";
 import "package:real_time_chatify/services/navigation_service.dart";
@@ -58,6 +58,7 @@ class _ChatsPageState extends State<ChatsPage> {
                       auth.logOut();
                     },
                     icon: const Icon(Icons.logout)),
+                isCentered: false,
               ),
             ),
             chatsList(height, width),
