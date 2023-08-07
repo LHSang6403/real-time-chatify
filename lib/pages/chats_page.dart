@@ -10,7 +10,7 @@ import 'package:real_time_chatify/widgets/custom_list_tile.dart';
 import "package:real_time_chatify/widgets/topbar.dart";
 
 class ChatsPage extends StatefulWidget {
-  ChatsPage({Key? key}) : super(key: key);
+  const ChatsPage({Key? key}) : super(key: key);
 
   @override
   State<ChatsPage> createState() => _ChatsPageState();
@@ -24,6 +24,7 @@ class _ChatsPageState extends State<ChatsPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 

@@ -5,7 +5,6 @@ import 'package:real_time_chatify/providers/authentication_provider.dart';
 import 'package:real_time_chatify/providers/people_page_provider.dart';
 import 'package:real_time_chatify/widgets/custom_person_tile.dart';
 import 'package:real_time_chatify/widgets/custom_search.dart';
-import 'package:real_time_chatify/widgets/input_fields.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
 import 'package:real_time_chatify/widgets/topbar.dart';
 
@@ -27,6 +26,7 @@ class _PeoplePageState extends State<PeoplePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     auth = Provider.of<AuthenticationProvider>(context);

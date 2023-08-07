@@ -7,42 +7,42 @@ import 'package:real_time_chatify/services/database_service.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
-  late final FirebaseAuth _auth;
-  late final NavigationService _navigationService;
-  late final DatabaseService _databaseService;
+  late final FirebaseAuth auth;
+  late final NavigationService navigationService;
+  late final DatabaseService databaseService;
 
   late ChatUser chatUser;
 
   AuthenticationProvider() {
-    _auth = FirebaseAuth.instance;
-    _navigationService = GetIt.instance<NavigationService>();
-    _databaseService = GetIt.instance<DatabaseService>();
+    auth = FirebaseAuth.instance;
+    navigationService = GetIt.instance<NavigationService>();
+    databaseService = GetIt.instance<DatabaseService>();
     //logOut();
-    _auth.authStateChanges().listen((_user) {
-      if (_user != null) {
-        _databaseService.updateUserLastSeenTime(_user.uid);
+    auth.authStateChanges().listen((user) {
+      if (user != null) {
+        databaseService.updateUserLastSeenTime(user.uid);
 
         chatUser = ChatUser.fromJSON(
           {
-            "user_id": _user.uid,
-            "name": _user.providerData.first.displayName,
-            "email": _user.providerData.first.email,
-            "last_active": Timestamp.fromDate(_user.metadata.lastSignInTime!),
-            "image": _user.providerData.first.photoURL,
+            "user_id": user.uid,
+            "name": user.providerData.first.displayName,
+            "email": user.providerData.first.email,
+            "last_active": Timestamp.fromDate(user.metadata.lastSignInTime!),
+            "image": user.providerData.first.photoURL,
           },
         );
-        _navigationService.route('/main');
+        navigationService.route('/main');
         print('Logged in');
       } else {
         print('Not logged in');
-        _navigationService.removeAndRoute('/login');
+        navigationService.removeAndRoute('/login');
       }
     });
   }
 
   Future<void> logOut() async {
     try {
-      await _auth.signOut();
+      await auth.signOut();
     } catch (e) {
       print(e);
     }
@@ -51,9 +51,8 @@ class AuthenticationProvider extends ChangeNotifier {
   Future<void> loginUsingEmailAndPassword(
       String _email, String _password) async {
     try {
-      await _auth.signInWithEmailAndPassword(
-          email: _email, password: _password);
-      print(_auth.currentUser);
+      await auth.signInWithEmailAndPassword(email: _email, password: _password);
+      print(auth.currentUser);
     } on FirebaseAuthException {
       print('Failed to sign in Firebase with Email & Password');
     } catch (e) {
@@ -61,10 +60,10 @@ class AuthenticationProvider extends ChangeNotifier {
     }
   }
 
-  Future<String?> registerUser(String _email, String _password) async {
+  Future<String?> registerUser(String email, String password) async {
     try {
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(email: _email, password: _password);
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       return userCredential.user!.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -78,5 +77,6 @@ class AuthenticationProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 }

@@ -6,14 +6,14 @@ const String MESSAGES_COLLECTION = 'messages';
 const String CHAT_COLLECTION = 'Chats';
 
 class DatabaseService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  DatabaseService() {}
+  DatabaseService();
 
   Future<void> createUser(
       String userId, String email, String name, String imgUrl) async {
     try {
-      await _db.collection(USER_COLLECTION).doc(userId).set({
+      await db.collection(USER_COLLECTION).doc(userId).set({
         'email': email,
         'name': name,
         'imgUrl': imgUrl,
@@ -25,11 +25,11 @@ class DatabaseService {
   }
 
   Future<DocumentSnapshot> getUser(String userId) async {
-    return _db.collection(USER_COLLECTION).doc(userId).get();
+    return db.collection(USER_COLLECTION).doc(userId).get();
   }
 
   Future<QuerySnapshot> getUsers(String? name) {
-    Query query = _db.collection(USER_COLLECTION);
+    Query query = db.collection(USER_COLLECTION);
     if (name != null) {
       query = query
           .where("name", isGreaterThanOrEqualTo: name)
@@ -39,7 +39,7 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot> getChatForUser(String userId) {
-    return _db
+    return db
         .collection(CHAT_COLLECTION)
         .where(
           'members',
@@ -49,7 +49,7 @@ class DatabaseService {
   }
 
   Future<QuerySnapshot> getLastMessage(String chatId) {
-    return _db
+    return db
         .collection(CHAT_COLLECTION)
         .doc(chatId)
         .collection(MESSAGES_COLLECTION)
@@ -60,7 +60,7 @@ class DatabaseService {
 
   Future<void> updateUserLastSeenTime(String userId) async {
     try {
-      await _db.collection(USER_COLLECTION).doc(userId).update({
+      await db.collection(USER_COLLECTION).doc(userId).update({
         'last_active': Timestamp.now(),
       });
     } catch (e) {
@@ -70,14 +70,14 @@ class DatabaseService {
 
   Future<void> updateChatData(String chatId, Map<String, dynamic> data) async {
     try {
-      await _db.collection(CHAT_COLLECTION).doc(chatId).update(data);
+      await db.collection(CHAT_COLLECTION).doc(chatId).update(data);
     } catch (e) {
       print(e);
     }
   }
 
   Stream<QuerySnapshot> streamMsgsForChat(String chatId) {
-    return _db
+    return db
         .collection(CHAT_COLLECTION)
         .doc(chatId)
         .collection(MESSAGES_COLLECTION)
@@ -87,7 +87,7 @@ class DatabaseService {
 
   Future<void> addMsgToChat(String chatId, Message msg) async {
     try {
-      await _db
+      await db
           .collection(CHAT_COLLECTION)
           .doc(chatId)
           .collection(MESSAGES_COLLECTION)
@@ -99,16 +99,17 @@ class DatabaseService {
 
   Future<DocumentReference?> createChat(Map<String, dynamic> data) async {
     try {
-      DocumentReference chat = await _db.collection(CHAT_COLLECTION).add(data);
+      DocumentReference chat = await db.collection(CHAT_COLLECTION).add(data);
       return chat;
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<void> deleteChat(String chatId) async {
     try {
-      await _db.collection(CHAT_COLLECTION).doc(chatId).delete();
+      await db.collection(CHAT_COLLECTION).doc(chatId).delete();
     } catch (e) {
       print(e);
     }

@@ -9,7 +9,7 @@ import 'package:real_time_chatify/services/navigation_service.dart';
 class SplashPage extends StatefulWidget {
   final VoidCallback onInitializationComplete;
 
-  SplashPage({Key? key, required this.onInitializationComplete})
+  const SplashPage({Key? key, required this.onInitializationComplete})
       : super(key: key);
 
   @override

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';
 
 class CustomPersonTile extends StatelessWidget {

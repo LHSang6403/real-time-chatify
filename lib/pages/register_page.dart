@@ -13,35 +13,34 @@ import 'package:real_time_chatify/widgets/rounded_button.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  late double _height;
-  late double _width;
+  late double height;
+  late double width;
 
-  late AuthenticationProvider _authService;
-  late DatabaseService _databaseService;
-  late CloudStorageService _cloudStorageService;
-  late NavigationService _navigationService;
+  late AuthenticationProvider authService;
+  late DatabaseService databaseService;
+  late CloudStorageService cloudStorageService;
+  late NavigationService navigationService;
 
   //final RegisterController registerController = Get.find();
   final registerFormKey = GlobalKey<FormState>();
-
   final registerController = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
-    _authService = Provider.of<AuthenticationProvider>(context);
-    _databaseService = GetIt.instance.get<DatabaseService>();
-    _cloudStorageService = GetIt.instance.get<CloudStorageService>();
-    _navigationService = GetIt.instance.get<NavigationService>();
+    authService = Provider.of<AuthenticationProvider>(context);
+    databaseService = GetIt.instance.get<DatabaseService>();
+    cloudStorageService = GetIt.instance.get<CloudStorageService>();
+    navigationService = GetIt.instance.get<NavigationService>();
 
-    _height = MediaQuery.of(context).size.height;
-    _width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return buildUI(context);
   }
 
@@ -50,9 +49,9 @@ class _RegisterPageState extends State<RegisterPage> {
       resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.symmetric(
-            horizontal: _width * 0.03, vertical: _height * 0.02),
-        height: _height * 0.98,
-        width: _width * 0.97,
+            horizontal: width * 0.03, vertical: height * 0.02),
+        height: height * 0.98,
+        width: width * 0.97,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -60,11 +59,11 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             profileImageField(),
             SizedBox(
-              height: _height * 0.0005,
+              height: height * 0.0005,
             ),
             registerForm(),
             SizedBox(
-              height: _height * 0.0005,
+              height: height * 0.0005,
             ),
             registerButton(),
           ],
@@ -83,14 +82,14 @@ class _RegisterPageState extends State<RegisterPage> {
       child: () {
         return Obx(() => AssetRoundedImage(
             profileImage: registerController.getProfileImage(),
-            imageSize: _height * 0.15));
+            imageSize: height * 0.15));
       }(),
     );
   }
 
   Widget registerForm() {
     return SizedBox(
-      height: _height * 0.35,
+      height: height * 0.35,
       child: Form(
           key: registerFormKey,
           child: Column(
@@ -106,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 obscureText: false,
               ),
               SizedBox(
-                height: _height * 0.02,
+                height: height * 0.02,
               ),
               CustomTextField(
                 onSaved: (value) {
@@ -117,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 obscureText: false,
               ),
               SizedBox(
-                height: _height * 0.02,
+                height: height * 0.02,
               ),
               CustomTextField(
                 onSaved: (value) {
@@ -135,24 +134,24 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget registerButton() {
     return RoundedButton(
         buttonName: 'Register',
-        height: _height * 0.065,
-        width: _width * 0.65,
+        height: height * 0.065,
+        width: width * 0.65,
         onPressed: () async {
           if (registerFormKey.currentState!.validate()) {
             registerFormKey.currentState!.save();
 
-            String? userId = await _authService.registerUser(
+            String? userId = await authService.registerUser(
                 registerController.getEmail(),
                 registerController.getPassword());
-            String? imgUrl = await _cloudStorageService.saveUserImgToStorage(
+            String? imgUrl = await cloudStorageService.saveUserImgToStorage(
                 userId!, registerController.getProfileImage());
-            await _databaseService.createUser(
+            await databaseService.createUser(
                 userId,
                 registerController.getEmail(),
                 registerController.getName(),
                 imgUrl!);
-            await _authService.logOut();
-            await _authService.loginUsingEmailAndPassword(
+            await authService.logOut();
+            await authService.loginUsingEmailAndPassword(
                 registerController.getEmail(),
                 registerController.getPassword());
             //_navigationService.routeBack();

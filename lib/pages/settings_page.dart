@@ -6,7 +6,7 @@ import 'package:real_time_chatify/widgets/setting_tile.dart';
 import 'package:real_time_chatify/widgets/topbar.dart';
 
 class SettingPage extends StatefulWidget {
-  SettingPage({Key? key}) : super(key: key);
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
   State<SettingPage> createState() => _SettingPageState();
@@ -17,6 +17,7 @@ class _SettingPageState extends State<SettingPage>
   late AuthenticationProvider auth;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     auth = Provider.of<AuthenticationProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;

@@ -12,15 +12,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late double _height;
-  late double _width;
-  final _loginFormKey = GlobalKey<FormState>();
+  late double height;
+  late double width;
+  final loginFormKey = GlobalKey<FormState>();
 
-  late AuthenticationProvider _auth;
-  late NavigationService _nav;
+  late AuthenticationProvider auth;
+  late NavigationService nav;
 
-  String? _email;
-  String? _password;
+  String? email;
+  String? password;
 
   @override
   void initState() {
@@ -29,10 +29,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    _height = MediaQuery.of(context).size.height;
-    _width = MediaQuery.of(context).size.width;
-    _auth = Provider.of<AuthenticationProvider>(context);
-    _nav = GetIt.instance.get<NavigationService>();
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    auth = Provider.of<AuthenticationProvider>(context);
+    nav = GetIt.instance.get<NavigationService>();
     return _buildLoginForm();
   }
 
@@ -40,20 +40,20 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(
-            horizontal: _width * 0.03, vertical: _height * 0.02),
-        height: _height * 0.98,
-        width: _width * 0.97,
+            horizontal: width * 0.03, vertical: height * 0.02),
+        height: height * 0.98,
+        width: width * 0.97,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _titleWidget(),
-            SizedBox(height: _height * 0.04),
+            SizedBox(height: height * 0.04),
             _loginForm(),
-            SizedBox(height: _height * 0.04),
+            SizedBox(height: height * 0.04),
             _buttonLogin(),
-            SizedBox(height: _height * 0.04),
+            SizedBox(height: height * 0.04),
             _registerAccountLink(),
           ],
         ),
@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _titleWidget() {
     return SizedBox(
-      height: _height * 0.1,
+      height: height * 0.1,
       child: const Text(
         'RT Chatify',
         style: TextStyle(
@@ -74,9 +74,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _loginForm() {
     return SizedBox(
-      height: _height * 0.18,
+      height: height * 0.18,
       child: Form(
-          key: _loginFormKey,
+          key: loginFormKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               CustomTextField(
                 onSaved: (value) {
-                  _email = value;
+                  email = value;
                 },
                 regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                 hintText: 'Email',
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               CustomTextField(
                 onSaved: (value) {
-                  _password = value;
+                  password = value;
                 },
                 regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
                 hintText: 'Password',
@@ -106,20 +106,20 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buttonLogin() {
     return RoundedButton(
         buttonName: "Login",
-        height: _height * 0.055,
-        width: _width * 0.4,
+        height: height * 0.055,
+        width: width * 0.4,
         onPressed: () {
-          if (_loginFormKey.currentState!.validate()) {
-            _loginFormKey.currentState!.save();
+          if (loginFormKey.currentState!.validate()) {
+            loginFormKey.currentState!.save();
             //print('Email: $_email, Password: $_password');
-            _auth.loginUsingEmailAndPassword(_email!, _password!);
+            auth.loginUsingEmailAndPassword(email!, password!);
           }
         });
   }
 
   Widget _registerAccountLink() {
     return GestureDetector(
-      onTap: () => _nav.route('/register'),
+      onTap: () => nav.route('/register'),
       child: const SizedBox(
         child: Text(
           'Don have an account?',
