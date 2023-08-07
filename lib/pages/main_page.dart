@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_time_chatify/pages/chats_page.dart';
 import 'package:real_time_chatify/pages/people_page.dart';
-import 'package:real_time_chatify/pages/setting_page.dart';
+import 'package:real_time_chatify/pages/settings_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -16,6 +16,7 @@ class _MainPageState extends State<MainPage> {
 
   int pageIndex = 0;
   List<Widget> pages = [];
+  final pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,9 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: pageIndex,
         onTap: (value) {
+          pageController.animateToPage(value,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut);
           setState(() {
             pageIndex = value;
           });
@@ -50,7 +54,10 @@ class _MainPageState extends State<MainPage> {
               icon: Icon(Icons.settings), label: "Settings"),
         ],
       ),
-      body: pages[pageIndex],
+      body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: pageController,
+          children: pages),
     );
   }
 }

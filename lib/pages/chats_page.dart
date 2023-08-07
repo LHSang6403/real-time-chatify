@@ -6,7 +6,7 @@ import 'package:real_time_chatify/pages/chat_page.dart';
 import "package:real_time_chatify/providers/authentication_provider.dart";
 import "package:real_time_chatify/providers/chats_page_provider.dart";
 import "package:real_time_chatify/services/navigation_service.dart";
-import "package:real_time_chatify/widgets/custom_list_view.dart";
+import 'package:real_time_chatify/widgets/custom_list_tile.dart';
 import "package:real_time_chatify/widgets/topbar.dart";
 
 class ChatsPage extends StatefulWidget {
@@ -16,7 +16,8 @@ class ChatsPage extends StatefulWidget {
   State<ChatsPage> createState() => _ChatsPageState();
 }
 
-class _ChatsPageState extends State<ChatsPage> {
+class _ChatsPageState extends State<ChatsPage>
+    with AutomaticKeepAliveClientMixin<ChatsPage> {
   late AuthenticationProvider auth;
   late ChatsPageProvider chatsPageProvider;
   late NavigationService navigationService;
@@ -107,4 +108,7 @@ class _ChatsPageState extends State<ChatsPage> {
           navigationService.routeToPage(ConversationPage(chat: chat));
         });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
