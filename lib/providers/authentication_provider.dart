@@ -25,10 +25,10 @@ class AuthenticationProvider extends ChangeNotifier {
         chatUser = ChatUser.fromJSON(
           {
             "user_id": user.uid,
-            "name": user.providerData.first.displayName,
-            "email": user.providerData.first.email,
+            "name": user.displayName,
+            "email": user.email,
             "last_active": Timestamp.fromDate(user.metadata.lastSignInTime!),
-            "image": user.providerData.first.photoURL,
+            "imgUrl": user.photoURL,
           },
         );
         navigationService.route('/main');
@@ -79,4 +79,6 @@ class AuthenticationProvider extends ChangeNotifier {
     }
     return null;
   }
+
+  void signOut() {}
 }
