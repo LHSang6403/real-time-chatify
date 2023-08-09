@@ -1,32 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SettingTile extends StatefulWidget {
+class TapSettingTile extends StatefulWidget {
   final String settingName;
   final bool isSwitch;
   final Function? onTap;
+  final Function? onChanged;
+  bool? buttonState;
   final double width;
   final double height;
 
-  const SettingTile({
+  TapSettingTile({
     Key? key,
     required this.settingName,
     required this.isSwitch,
     this.onTap,
+    this.onChanged,
+    this.buttonState,
     required this.width,
     required this.height,
   });
 
   @override
-  State<SettingTile> createState() => _SettingTileState();
+  State<TapSettingTile> createState() => _TapSettingTileState();
 }
 
-class _SettingTileState extends State<SettingTile> {
-  bool buttonState = false;
+class _TapSettingTileState extends State<TapSettingTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => widget.onTap!(),
+      onTap: () {
+        widget.onTap!();
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: widget.width * 0.05),
         height: widget.height * 0.06,
@@ -43,11 +48,12 @@ class _SettingTileState extends State<SettingTile> {
                     fontWeight: FontWeight.w400)),
             widget.isSwitch
                 ? CupertinoSwitch(
-                    value: buttonState,
+                    value: widget.buttonState ?? false,
                     onChanged: (value) {
                       setState(() {
-                        buttonState = value;
+                        widget.buttonState = value;
                       });
+                      widget.onChanged!();
                     },
                   )
                 : Container(

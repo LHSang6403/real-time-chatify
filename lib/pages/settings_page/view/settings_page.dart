@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:real_time_chatify/providers/authentication_provider.dart';
-import 'package:real_time_chatify/providers/settings_page_provider.dart';
+import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
+import 'package:real_time_chatify/pages/settings_page/viewModel/settings_page_provider.dart';
+import 'package:real_time_chatify/widgets/dialogs/android_dialog.dart';
+import 'package:real_time_chatify/widgets/dialogs/ios_dialog.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';
-import 'package:real_time_chatify/widgets/setting_tile.dart';
+import 'package:real_time_chatify/widgets/custom_tap_setting_tile.dart';
 import 'package:real_time_chatify/widgets/topbar.dart';
 
 class SettingPage extends StatefulWidget {
@@ -34,6 +36,7 @@ class _SettingPageState extends State<SettingPage>
   Widget buildUI(BuildContext context, double height, double width) {
     return Builder(builder: (BuildContext context) {
       settingsProvider = context.watch<SettingsProvider>();
+
       return Scaffold(
         body: Column(
           mainAxisSize: MainAxisSize.max,
@@ -67,11 +70,17 @@ class _SettingPageState extends State<SettingPage>
         SizedBox(
           height: height * 0.1,
           width: width * 0.22,
-          child: NetworkRoundedImageWithStatus(
-            imagePath: settingsProvider.myUserImg,
-            imageSize: height,
-            isActive: true,
-          ),
+          child: settingsProvider.myUserImg != ""
+              ? NetworkRoundedImageWithStatus(
+                  imagePath: settingsProvider.myUserImg,
+                  imageSize: height,
+                  isActive: true,
+                )
+              : const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                ),
         ),
         SizedBox(height: height * 0.02),
         Text(
@@ -99,29 +108,34 @@ class _SettingPageState extends State<SettingPage>
   }
 
   Widget autoLogInTile(double height, double width) {
-    return SettingTile(
+    return TapSettingTile(
         settingName: 'Auto log-in',
         isSwitch: true,
-        onTap: () {
-          print("tap log in");
+        buttonState: auth.autoLogIn,
+        onChanged: () {
+          auth.autoLogIn = !auth.autoLogIn;
+          print('changed auto log in to ${auth.autoLogIn}');
         },
+        onTap: () {},
         width: width,
         height: height);
   }
 
   Widget notificationsTile(double height, double width) {
-    return SettingTile(
+    return TapSettingTile(
         settingName: 'Notifications',
         isSwitch: true,
-        onTap: () {
-          print("tap noti");
+        buttonState: false,
+        onChanged: () {
+          print("changed notifications setting");
         },
+        onTap: () {},
         width: width,
         height: height);
   }
 
   Widget informationTile(double height, double width) {
-    return SettingTile(
+    return TapSettingTile(
         settingName: 'Information',
         isSwitch: false,
         onTap: () {
@@ -132,12 +146,14 @@ class _SettingPageState extends State<SettingPage>
   }
 
   Widget logOutTile(double height, double width) {
-    return SettingTile(
+    return TapSettingTile(
         settingName: 'Log Out',
         isSwitch: false,
         onTap: () {
-          print("tap log log out");
-          //auth.logOut();
+          IOSAlertDialog.show(context, "Log out", "Do you want to log out?",
+              () => auth.logOut());
+          // AndroidAlertDialog.show(context, "Log out", "Do you want to log out?",
+          //     () => auth.logOut());
         },
         width: width,
         height: height);

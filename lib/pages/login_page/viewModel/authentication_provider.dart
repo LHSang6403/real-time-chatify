@@ -10,6 +10,7 @@ class AuthenticationProvider extends ChangeNotifier {
   late final FirebaseAuth auth;
   late final NavigationService navigationService;
   late final DatabaseService databaseService;
+  bool autoLogIn = true;
 
   late ChatUser chatUser;
 
@@ -17,7 +18,11 @@ class AuthenticationProvider extends ChangeNotifier {
     auth = FirebaseAuth.instance;
     navigationService = GetIt.instance<NavigationService>();
     databaseService = GetIt.instance<DatabaseService>();
-    //logOut();
+
+    if (autoLogIn == false) {
+      logOut();
+    }
+
     auth.authStateChanges().listen((user) {
       if (user != null) {
         databaseService.updateUserLastSeenTime(user.uid);

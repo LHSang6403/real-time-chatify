@@ -2,9 +2,9 @@ import "package:flutter/material.dart";
 import "package:get_it/get_it.dart";
 import "package:provider/provider.dart";
 import "package:real_time_chatify/models/chat.dart";
-import 'package:real_time_chatify/pages/chat_page.dart';
-import "package:real_time_chatify/providers/authentication_provider.dart";
-import "package:real_time_chatify/providers/chats_page_provider.dart";
+import "package:real_time_chatify/pages/chat_page/view/chat_page.dart";
+import 'package:real_time_chatify/pages/chats_page/viewModel/chats_page_provider.dart';
+import "package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart";
 import "package:real_time_chatify/services/navigation_service.dart";
 import 'package:real_time_chatify/widgets/custom_list_tile.dart';
 import "package:real_time_chatify/widgets/topbar.dart";
@@ -85,12 +85,12 @@ class _ChatsPageState extends State<ChatsPage>
                     },
                   )
                 : const Center(
-                    child: Text("No chat"),
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
                   )
             : const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
+                child: Text("No chat"),
               );
       }(),
     );

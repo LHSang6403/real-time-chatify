@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:real_time_chatify/models/message.dart';
-import 'package:real_time_chatify/providers/authentication_provider.dart';
+import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
 import 'package:real_time_chatify/services/cloud_storage_service.dart';
 import 'package:real_time_chatify/services/database_service.dart';
 import 'package:real_time_chatify/services/media_service.dart';

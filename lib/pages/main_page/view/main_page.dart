@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:real_time_chatify/pages/chats_page.dart';
-import 'package:real_time_chatify/pages/people_page.dart';
-import 'package:real_time_chatify/pages/settings_page.dart';
+import 'package:real_time_chatify/pages/chats_page/view/chats_page.dart';
+import 'package:real_time_chatify/pages/people_page/view/people_page.dart';
+import 'package:real_time_chatify/pages/settings_page/view/settings_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

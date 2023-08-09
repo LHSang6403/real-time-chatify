@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:real_time_chatify/pages/login_page.dart';
-import 'package:real_time_chatify/pages/main_page.dart';
-import 'package:real_time_chatify/pages/register_page.dart';
-import 'package:real_time_chatify/providers/authentication_provider.dart';
+import 'package:real_time_chatify/pages/login_page/view/login_page.dart';
+import 'package:real_time_chatify/pages/main_page/view/main_page.dart';
+import 'package:real_time_chatify/pages/login_page/view/register_page.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
-import 'pages/splash_page.dart';
+import 'pages/login_page/viewModel/authentication_provider.dart';
+import 'pages/splash_page/view/splash_page.dart';
 
 void main() {
   runApp(SplashPage(

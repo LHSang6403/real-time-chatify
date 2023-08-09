@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:real_time_chatify/models/user.dart';
-import 'package:real_time_chatify/providers/authentication_provider.dart';
-import 'package:real_time_chatify/providers/people_page_provider.dart';
+import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
+import 'package:real_time_chatify/pages/people_page/viewModel/people_page_provider.dart';
 import 'package:real_time_chatify/widgets/custom_person_tile.dart';
 import 'package:real_time_chatify/widgets/custom_search.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
