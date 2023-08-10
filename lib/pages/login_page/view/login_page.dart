@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
-import 'package:real_time_chatify/widgets/input_fields.dart';
+import 'package:real_time_chatify/widgets/custom_input_fields.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
 
 class LoginPage extends StatefulWidget {

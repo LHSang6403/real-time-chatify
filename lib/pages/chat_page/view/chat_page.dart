@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:real_time_chatify/models/chat.dart';
-import 'package:real_time_chatify/pages/chats_page/ViewModel/chat_provider.dart';
+import 'package:real_time_chatify/pages/chat_page/viewModel/chat_provider.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
 import 'package:real_time_chatify/widgets/custom_chat_tile.dart';
-import 'package:real_time_chatify/widgets/input_fields.dart';
+import 'package:real_time_chatify/widgets/custom_input_fields.dart';
 import 'package:real_time_chatify/widgets/topbar.dart';
 
 class ConversationPage extends StatefulWidget {
@@ -37,6 +37,7 @@ class _ConversationPageState extends State<ConversationPage> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     auth = Provider.of<AuthenticationProvider>(context);
+
     return MultiProvider(providers: [
       ChangeNotifierProvider<ConversationProvider>(
           create: (_) =>

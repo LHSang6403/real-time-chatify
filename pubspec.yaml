@@ -1,7 +1,6 @@
 name: real_time_chatify
 description: A new Flutter project.
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
+
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
@@ -24,6 +23,9 @@ dependencies:
   timeago: ^3.5.0
   flutter_keyboard_visibility: ^5.4.1
   get: ^4.6.5
+  shared_preferences: ^2.2.0
+  connectivity_plus: ^4.0.2
+  flutter_local_notifications: ^15.1.0+1
 
   cupertino_icons: ^1.0.2
 
@@ -31,7 +33,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  
   flutter_lints: ^2.0.0
 
 flutter:

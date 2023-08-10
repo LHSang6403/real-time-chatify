@@ -49,6 +49,7 @@ class ConversationProvider extends ChangeNotifier {
           Map<String, dynamic> data = msg.data() as Map<String, dynamic>;
           return Message.fromJson(data);
         }).toList();
+
         messages = msgs;
         notifyListeners();
         WidgetsBinding.instance.addPostFrameCallback((_) {

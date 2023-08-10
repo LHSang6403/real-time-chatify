@@ -35,7 +35,6 @@ class _ChatsPageState extends State<ChatsPage>
       ChangeNotifierProvider<ChatsPageProvider>(
           create: (_) => ChatsPageProvider(auth))
     ], child: buildUI(context, height, width));
-    //return buildUI(context, height, width);
   }
 
   Widget buildUI(BuildContext context, double height, double width) {

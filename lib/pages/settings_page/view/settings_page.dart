@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:real_time_chatify/pages/informartion_page/view/information_page.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
 import 'package:real_time_chatify/pages/settings_page/viewModel/settings_page_provider.dart';
+import 'package:real_time_chatify/services/navigation_service.dart';
+import 'package:real_time_chatify/services/platform_service.dart';
+import 'package:real_time_chatify/services/shared_preference_service.dart';
 import 'package:real_time_chatify/widgets/dialogs/android_dialog.dart';
 import 'package:real_time_chatify/widgets/dialogs/ios_dialog.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';
@@ -19,10 +24,16 @@ class _SettingPageState extends State<SettingPage>
     with AutomaticKeepAliveClientMixin<SettingPage> {
   late AuthenticationProvider auth;
   late SettingsProvider settingsProvider;
+  late SharedPreference sharedPreference;
+  late NavigationService navigationService;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    sharedPreference = SharedPreference();
     auth = Provider.of<AuthenticationProvider>(context);
+    navigationService = GetIt.instance.get<NavigationService>();
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
@@ -114,7 +125,7 @@ class _SettingPageState extends State<SettingPage>
         buttonState: auth.autoLogIn,
         onChanged: () {
           auth.autoLogIn = !auth.autoLogIn;
-          print('changed auto log in to ${auth.autoLogIn}');
+          sharedPreference.writeBoolToLocal('autoLogIn', auth.autoLogIn);
         },
         onTap: () {},
         width: width,
@@ -127,7 +138,12 @@ class _SettingPageState extends State<SettingPage>
         isSwitch: true,
         buttonState: false,
         onChanged: () {
-          print("changed notifications setting");
+          sharedPreference.writeBoolToLocal('notifications', false);
+          PlatformManager.isIOS()
+              ? IOSAlertDialog.show(
+                  context, "Alert", "This function is not supported", () {})
+              : AndroidAlertDialog.show(
+                  context, "Alert", "This function is not supported", () {});
         },
         onTap: () {},
         width: width,
@@ -139,7 +155,8 @@ class _SettingPageState extends State<SettingPage>
         settingName: 'Information',
         isSwitch: false,
         onTap: () {
-          print("tap log info");
+          InformationPage informationPage = InformationPage();
+          navigationService.routeToPage(informationPage);
         },
         width: width,
         height: height);
@@ -150,10 +167,11 @@ class _SettingPageState extends State<SettingPage>
         settingName: 'Log Out',
         isSwitch: false,
         onTap: () {
-          IOSAlertDialog.show(context, "Log out", "Do you want to log out?",
-              () => auth.logOut());
-          // AndroidAlertDialog.show(context, "Log out", "Do you want to log out?",
-          //     () => auth.logOut());
+          PlatformManager.isIOS()
+              ? IOSAlertDialog.show(context, "Log out",
+                  "Do you want to log out?", () => auth.logOut())
+              : AndroidAlertDialog.show(context, "Log out",
+                  "Do you want to log out?", () => auth.logOut());
         },
         width: width,
         height: height);

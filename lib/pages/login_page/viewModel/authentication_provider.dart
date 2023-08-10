@@ -5,20 +5,24 @@ import 'package:get_it/get_it.dart';
 import 'package:real_time_chatify/models/user.dart';
 import 'package:real_time_chatify/services/database_service.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
+import 'package:real_time_chatify/services/shared_preference_service.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
   late final FirebaseAuth auth;
   late final NavigationService navigationService;
   late final DatabaseService databaseService;
+  late SharedPreference sharedPreference;
   bool autoLogIn = true;
 
   late ChatUser chatUser;
 
   AuthenticationProvider() {
     auth = FirebaseAuth.instance;
+    sharedPreference = SharedPreference();
     navigationService = GetIt.instance<NavigationService>();
     databaseService = GetIt.instance<DatabaseService>();
 
+    runAsAsync();
     if (autoLogIn == false) {
       logOut();
     }
@@ -43,6 +47,11 @@ class AuthenticationProvider extends ChangeNotifier {
         navigationService.removeAndRoute('/login');
       }
     });
+  }
+
+  Future<void> runAsAsync() async {
+    autoLogIn = await sharedPreference.readBoolFormLocal('autoLogIn');
+    print('autoLogIn: $autoLogIn');
   }
 
   Future<void> logOut() async {

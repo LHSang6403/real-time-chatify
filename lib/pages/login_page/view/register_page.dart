@@ -8,7 +8,7 @@ import 'package:real_time_chatify/services/cloud_storage_service.dart';
 import 'package:real_time_chatify/services/database_service.dart';
 import 'package:real_time_chatify/services/media_service.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
-import 'package:real_time_chatify/widgets/input_fields.dart';
+import 'package:real_time_chatify/widgets/custom_input_fields.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';
 
