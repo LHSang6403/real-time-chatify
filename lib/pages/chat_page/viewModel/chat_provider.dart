@@ -94,7 +94,7 @@ class ConversationProvider extends ChangeNotifier {
   }
 
   void deleteChat() {
-    navigationService.routeBack();
+    //navigationService.routeBack();
     db.deleteChat(chatId);
   }
 }

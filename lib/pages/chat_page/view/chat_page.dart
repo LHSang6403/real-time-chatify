@@ -56,18 +56,16 @@ class _ConversationPageState extends State<ConversationPage> {
                   horizontal: width * 0.03, vertical: height * 0.02),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TopBar(
                     title: widget.chat.getChatName(),
                     action1: IconButton(
-                        onPressed: () {
-                          chatProvider.deleteChat();
-                        },
+                        onPressed: () {},
                         icon: const Icon(
-                          Icons.delete,
-                          color: Colors.white,
+                          Icons.call,
+                          color: Colors.white60,
                         )),
                     action2: IconButton(
                         onPressed: () {
@@ -116,7 +114,8 @@ class _ConversationPageState extends State<ConversationPage> {
         );
       } else {
         return const Center(
-          child: Text("No messages yet"),
+          child: Text("No messages yet",
+              style: TextStyle(color: Colors.white60, fontSize: 20)),
         );
       }
     } else {

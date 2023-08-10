@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:real_time_chatify/pages/login_page/viewModel/register_controller.dart';
+import 'package:real_time_chatify/pages/register_page/viewModel/register_controller.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
 import 'package:real_time_chatify/services/cloud_storage_service.dart';
 import 'package:real_time_chatify/services/database_service.dart';

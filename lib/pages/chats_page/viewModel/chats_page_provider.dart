@@ -66,4 +66,8 @@ class ChatsPageProvider extends ChangeNotifier {
       print('Error in getting chats: $e');
     }
   }
+
+  void deleteThisChat(int index) {
+    db.deleteChat(chats[index].id);
+  }
 }

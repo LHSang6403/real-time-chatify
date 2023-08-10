@@ -30,8 +30,8 @@ class SharedPreference {
   dynamic readBoolFormLocal(String key) async {
     Future prefsTemp = SharedPreferences.getInstance();
     final SharedPreferences prefs = await prefsTemp;
-    bool res = prefs.getBool(key)!;
-    return res;
+    bool? res = prefs.getBool(key); // null check
+    return res ?? false;
   }
 
   Future reset() async {

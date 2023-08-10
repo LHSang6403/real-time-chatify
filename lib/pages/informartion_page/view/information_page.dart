@@ -15,7 +15,7 @@ class InformationPage extends StatelessWidget {
 
   InformationModel informationModel = InformationModel(
       "Real time Chatify",
-      "0.0.1",
+      "Version 0.0.4",
       "assets/images/app_logo.png",
       "Sang Le",
       "assets/images/unknown_him.png",
@@ -45,9 +45,15 @@ class InformationPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AssetRoundedImage(profileImage: appImgFile, imageSize: height * 0.1),
+          SizedBox(
+            height: height * 0.02,
+          ),
           customTextInformation(informationModel.appName, true, 28),
           customTextInformation(informationModel.appVersion, false, 24),
-          AssetRoundedImage(profileImage: devImgFile, imageSize: height * 0.1),
+          SizedBox(
+            height: height * 0.05,
+          ),
+          AssetRoundedImage(profileImage: devImgFile, imageSize: height * 0.05),
           customTextInformation(informationModel.devName, false, 24),
           customTextInformation(informationModel.devEmail, false, 20),
           SizedBox(
@@ -65,7 +71,7 @@ class InformationPage extends StatelessWidget {
 
   Widget customTextInformation(String text, bool isBold, double fontSize) {
     return Container(
-      margin: EdgeInsets.only(bottom: height * 0.01),
+      margin: EdgeInsets.only(bottom: width * 0.005),
       child: Center(
         child: Text(text,
             style: TextStyle(

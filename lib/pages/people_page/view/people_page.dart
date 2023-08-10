@@ -138,7 +138,7 @@ class _PeoplePageState extends State<PeoplePage>
       child: RoundedButton(
         buttonName: peoplePageProvider.selectedUsers.length == 1
             ? "Chat with ${peoplePageProvider.selectedUsers.first.name}"
-            : "Group chat ${peoplePageProvider.selectedUsers.length} people",
+            : "Group chat ${peoplePageProvider.selectedUsers.length + 1} people",
         height: height * 0.06,
         width: width * 0.7,
         onPressed: () {
