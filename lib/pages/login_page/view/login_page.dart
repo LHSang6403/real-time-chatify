@@ -40,25 +40,28 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget buildLoginForm() {
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: width * 0.03, vertical: height * 0.02),
-        height: height * 0.98,
-        width: width * 0.97,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            titleWidget(),
-            SizedBox(height: height * 0.04),
-            loginForm(),
-            SizedBox(height: height * 0.04),
-            buttonLogin(),
-            SizedBox(height: height * 0.04),
-            registerAccountLink(),
-          ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: width * 0.03, vertical: height * 0.02),
+          height: height * 0.98,
+          width: width * 0.97,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              titleWidget(),
+              SizedBox(height: height * 0.04),
+              loginForm(),
+              SizedBox(height: height * 0.04),
+              buttonLogin(),
+              SizedBox(height: height * 0.04),
+              registerAccountLink(),
+            ],
+          ),
         ),
       ),
     );
@@ -77,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget loginForm() {
     return SizedBox(
-      height: height * 0.18,
+      height: height * 0.2,
       child: Form(
           key: loginPageController.loginFormKey,
           child: Column(

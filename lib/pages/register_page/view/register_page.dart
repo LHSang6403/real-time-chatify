@@ -43,28 +43,31 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget buildUI(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: width * 0.03, vertical: height * 0.02),
-        height: height * 0.98,
-        width: width * 0.97,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            profileImageField(),
-            SizedBox(
-              height: height * 0.0005,
-            ),
-            registerForm(),
-            SizedBox(
-              height: height * 0.0005,
-            ),
-            registerButton(),
-          ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: width * 0.03, vertical: height * 0.02),
+          height: height * 0.98,
+          width: width * 0.97,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              profileImageField(),
+              SizedBox(
+                height: height * 0.0005,
+              ),
+              registerForm(),
+              SizedBox(
+                height: height * 0.0005,
+              ),
+              registerButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -156,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
             await authService.loginUsingEmailAndPassword(
                 registerPageController.getEmail(),
                 registerPageController.getPassword());
-            navigationService.routeBack();
+            //navigationService.removeAndRoute("/login");
           }
         });
   }

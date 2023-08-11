@@ -108,24 +108,24 @@ class _ChatsPageState extends State<ChatsPage>
         child: Column(
           children: [
             Expanded(
-              child: chats != null
-                  ? chats.isNotEmpty
-                      ? ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: chats.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return chatTile(chats[index], height, width, index);
-                          },
-                        )
-                      : const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        )
-                  : const Center(
-                      child: Text("No chat"),
-                    ),
-            ),
+                child: chats != null
+                    ? chats.isNotEmpty
+                        ? ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: chats.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return chatTile(
+                                  chats[index], height, width, index);
+                            },
+                          )
+                        : const Center(
+                            child: Text("No chat"),
+                          )
+                    : const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      )),
             // Các widget khác nếu có
           ],
         ),

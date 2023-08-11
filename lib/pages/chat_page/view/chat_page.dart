@@ -60,29 +60,36 @@ class _ConversationPageState extends State<ConversationPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TopBar(
-                      title: widget.chat.getChatName(),
-                      action1: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.call,
-                            color: Colors.white60,
-                          )),
-                      action2: IconButton(
-                          onPressed: () {
-                            chatProvider.navigationService.routeBack();
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                          )),
-                      fontSize: width * 0.05,
-                      isCentered: true,
-                    ),
-                    Divider(
-                      height: height * 0.005,
-                      color: Colors.white60,
-                      thickness: 0.5,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        TopBar(
+                          title: widget.chat.getChatName(),
+                          action1: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.call,
+                                color: Colors.white60,
+                              )),
+                          action2: IconButton(
+                              onPressed: () {
+                                chatProvider.navigationService.routeBack();
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              )),
+                          fontSize: width * 0.05,
+                          isCentered: true,
+                        ),
+                        Divider(
+                          height: height * 0.005,
+                          color: Colors.white60,
+                          thickness: 0.5,
+                        ),
+                      ],
                     ),
                     messagesListUI(),
                     bottomForm(),
