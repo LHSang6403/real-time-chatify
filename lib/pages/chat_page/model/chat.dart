@@ -1,5 +1,5 @@
-import 'package:real_time_chatify/models/message.dart';
-import 'package:real_time_chatify/models/user.dart';
+import 'package:real_time_chatify/pages/chat_page/model/message.dart';
+import 'package:real_time_chatify/pages/people_page/model/user.dart';
 
 class Chat {
   final String id;

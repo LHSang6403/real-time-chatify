@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:real_time_chatify/pages/login_page/model/login_page_model.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
+import 'package:real_time_chatify/pages/login_page/viewModel/login_page_controller.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
 import 'package:real_time_chatify/widgets/custom_input_fields.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
@@ -14,13 +16,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late double height;
   late double width;
-  final loginFormKey = GlobalKey<FormState>();
 
   late AuthenticationProvider auth;
   late NavigationService nav;
 
-  String? email;
-  String? password;
+  late LoginPageModel loginPageModel;
+  late LoginPageController loginPageController;
 
   @override
   void initState() {
@@ -29,14 +30,16 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    loginPageModel = LoginPageModel();
+    loginPageController = LoginPageController();
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     auth = Provider.of<AuthenticationProvider>(context);
     nav = GetIt.instance.get<NavigationService>();
-    return _buildLoginForm();
+    return buildLoginForm();
   }
 
-  Widget _buildLoginForm() {
+  Widget buildLoginForm() {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(
@@ -48,20 +51,20 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _titleWidget(),
+            titleWidget(),
             SizedBox(height: height * 0.04),
-            _loginForm(),
+            loginForm(),
             SizedBox(height: height * 0.04),
-            _buttonLogin(),
+            buttonLogin(),
             SizedBox(height: height * 0.04),
-            _registerAccountLink(),
+            registerAccountLink(),
           ],
         ),
       ),
     );
   }
 
-  Widget _titleWidget() {
+  Widget titleWidget() {
     return SizedBox(
       height: height * 0.1,
       child: const Text(
@@ -72,11 +75,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _loginForm() {
+  Widget loginForm() {
     return SizedBox(
       height: height * 0.18,
       child: Form(
-          key: loginFormKey,
+          key: loginPageController.loginFormKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               CustomTextField(
                 onSaved: (value) {
-                  email = value;
+                  loginPageModel.email = value;
                 },
                 regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                 hintText: 'Email',
@@ -92,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               CustomTextField(
                 onSaved: (value) {
-                  password = value;
+                  loginPageModel.password = value;
                 },
                 regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
                 hintText: 'Password',
@@ -103,21 +106,21 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buttonLogin() {
+  Widget buttonLogin() {
     return RoundedButton(
         buttonName: "Login",
         height: height * 0.055,
         width: width * 0.4,
         onPressed: () {
-          if (loginFormKey.currentState!.validate()) {
-            loginFormKey.currentState!.save();
-            //print('Email: $_email, Password: $_password');
-            auth.loginUsingEmailAndPassword(email!, password!);
+          if (loginPageController.loginFormKey.currentState!.validate()) {
+            loginPageController.loginFormKey.currentState!.save();
+            auth.loginUsingEmailAndPassword(
+                loginPageModel.email!, loginPageModel.password!);
           }
         });
   }
 
-  Widget _registerAccountLink() {
+  Widget registerAccountLink() {
     return GestureDetector(
       onTap: () => nav.route('/register'),
       child: const SizedBox(

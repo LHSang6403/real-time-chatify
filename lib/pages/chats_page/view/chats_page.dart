@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:get_it/get_it.dart";
 import "package:provider/provider.dart";
-import "package:real_time_chatify/models/chat.dart";
+import 'package:real_time_chatify/pages/chat_page/model/chat.dart';
 import "package:real_time_chatify/pages/chat_page/view/chat_page.dart";
 import "package:real_time_chatify/pages/chats_page/viewModel/chats_bottombar_provider.dart";
 import 'package:real_time_chatify/pages/chats_page/viewModel/chats_page_provider.dart';
@@ -10,7 +10,7 @@ import "package:real_time_chatify/services/navigation_service.dart";
 import "package:real_time_chatify/widgets/bottom_sheet.dart";
 import 'package:real_time_chatify/widgets/custom_list_tile.dart';
 import "package:real_time_chatify/widgets/rounded_image.dart";
-import "package:real_time_chatify/widgets/topbar.dart";
+import 'package:real_time_chatify/widgets/top_bar.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({Key? key}) : super(key: key);
@@ -65,8 +65,7 @@ class _ChatsPageState extends State<ChatsPage>
                 title: "Chats",
                 action1: IconButton(
                   onPressed: () {
-                    // show bottom sheet
-                    CustomBottomSheet.showAdd(
+                    CustomBottomSheet.showSheet(
                         context, height, width, "Your account", [
                       NetworkRoundedImageWithStatus(
                         imagePath: chatsBottomBarProvider.myImg,
@@ -101,25 +100,36 @@ class _ChatsPageState extends State<ChatsPage>
     List<Chat> chats = chatsPageProvider.chats;
 
     return Expanded(
-      child: () {
-        return chats != null
-            ? chats.isNotEmpty
-                ? ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: chats.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return chatTile(chats[index], height, width, index);
-                    },
-                  )
-                : const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
+      child: RefreshIndicator(
+        onRefresh: () async {
+          chatsPageProvider.getChats();
+          print('refresh done');
+        },
+        child: Column(
+          children: [
+            Expanded(
+              child: chats != null
+                  ? chats.isNotEmpty
+                      ? ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: chats.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return chatTile(chats[index], height, width, index);
+                          },
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                  : const Center(
+                      child: Text("No chat"),
                     ),
-                  )
-            : const Center(
-                child: Text("No chat"),
-              );
-      }(),
+            ),
+            // Các widget khác nếu có
+          ],
+        ),
+      ),
     );
   }
 

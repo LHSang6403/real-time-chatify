@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:real_time_chatify/models/chat.dart';
-import 'package:real_time_chatify/pages/chat_page/viewModel/chat_provider.dart';
+import 'package:real_time_chatify/pages/chat_page/model/chat.dart';
+import 'package:real_time_chatify/pages/chat_page/viewModel/chat_page_controller.dart';
+import 'package:real_time_chatify/pages/chat_page/viewModel/chat_page_provider.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
 import 'package:real_time_chatify/widgets/custom_chat_tile.dart';
 import 'package:real_time_chatify/widgets/custom_input_fields.dart';
-import 'package:real_time_chatify/widgets/topbar.dart';
+import 'package:real_time_chatify/widgets/top_bar.dart';
 
 class ConversationPage extends StatefulWidget {
   final Chat chat;
@@ -22,14 +23,12 @@ class _ConversationPageState extends State<ConversationPage> {
   late AuthenticationProvider auth;
   late ConversationProvider chatProvider;
 
-  late GlobalKey<FormState> msgFormKey;
-  late ScrollController scrollController;
+  late ChatPageController chatPageController;
 
   @override
   void initState() {
     super.initState();
-    msgFormKey = GlobalKey<FormState>();
-    scrollController = ScrollController();
+    chatPageController = ChatPageController();
   }
 
   @override
@@ -40,8 +39,8 @@ class _ConversationPageState extends State<ConversationPage> {
 
     return MultiProvider(providers: [
       ChangeNotifierProvider<ConversationProvider>(
-          create: (_) =>
-              ConversationProvider(widget.chat.id, auth, scrollController)),
+          create: (_) => ConversationProvider(
+              widget.chat.id, auth, chatPageController.scrollController)),
     ], child: buildUI(context));
   }
 
@@ -81,7 +80,7 @@ class _ConversationPageState extends State<ConversationPage> {
                       isCentered: true,
                     ),
                     Divider(
-                      height: height * 0.004,
+                      height: height * 0.005,
                       color: Colors.white60,
                       thickness: 0.5,
                     ),
@@ -98,7 +97,7 @@ class _ConversationPageState extends State<ConversationPage> {
       if (chatProvider.messages!.isNotEmpty) {
         return Expanded(
           child: ListView.builder(
-            controller: scrollController,
+            controller: chatPageController.scrollController,
             padding: EdgeInsets.zero,
             itemCount: chatProvider.messages!.length,
             itemBuilder: (
@@ -141,7 +140,7 @@ class _ConversationPageState extends State<ConversationPage> {
           color: const Color.fromARGB(255, 31, 29, 42),
           borderRadius: BorderRadius.circular(22)),
       child: Form(
-        key: msgFormKey,
+        key: chatPageController.msgFormKey,
         child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -173,10 +172,10 @@ class _ConversationPageState extends State<ConversationPage> {
       width: size,
       child: IconButton(
           onPressed: () {
-            if (msgFormKey.currentState!.validate()) {
-              msgFormKey.currentState!.save();
+            if (chatPageController.msgFormKey.currentState!.validate()) {
+              chatPageController.msgFormKey.currentState!.save();
               chatProvider.sendMsg();
-              msgFormKey.currentState!.reset();
+              chatPageController.msgFormKey.currentState!.reset();
             }
           },
           icon: const Icon(

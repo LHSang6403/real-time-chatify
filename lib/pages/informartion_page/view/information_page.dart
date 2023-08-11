@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:real_time_chatify/pages/informartion_page/Model/information_model.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
+import 'package:real_time_chatify/widgets/customTextInformation.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';
 
@@ -48,14 +49,18 @@ class InformationPage extends StatelessWidget {
           SizedBox(
             height: height * 0.02,
           ),
-          customTextInformation(informationModel.appName, true, 28),
-          customTextInformation(informationModel.appVersion, false, 24),
+          CustomTextInformation(
+              text: informationModel.appName, isBold: true, width: width),
+          CustomTextInformation(
+              text: informationModel.appVersion, isBold: false, width: width),
           SizedBox(
             height: height * 0.05,
           ),
           AssetRoundedImage(profileImage: devImgFile, imageSize: height * 0.05),
-          customTextInformation(informationModel.devName, false, 24),
-          customTextInformation(informationModel.devEmail, false, 20),
+          CustomTextInformation(
+              text: informationModel.devName, isBold: false, width: width),
+          CustomTextInformation(
+              text: informationModel.devEmail, isBold: false, width: width),
           SizedBox(
             height: height * 0.04,
           ),
@@ -65,19 +70,6 @@ class InformationPage extends StatelessWidget {
               width: width * 0.3,
               onPressed: () => nav.routeBack())
         ],
-      ),
-    );
-  }
-
-  Widget customTextInformation(String text, bool isBold, double fontSize) {
-    return Container(
-      margin: EdgeInsets.only(bottom: width * 0.005),
-      child: Center(
-        child: Text(text,
-            style: TextStyle(
-                fontSize: fontSize,
-                color: Colors.white70,
-                fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
       ),
     );
   }

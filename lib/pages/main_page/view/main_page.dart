@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_time_chatify/pages/chats_page/view/chats_page.dart';
+import 'package:real_time_chatify/pages/main_page/model/main_page_model.dart';
 import 'package:real_time_chatify/pages/people_page/view/people_page.dart';
 import 'package:real_time_chatify/pages/settings_page/view/settings_page.dart';
 
@@ -14,18 +15,17 @@ class _MainPageState extends State<MainPage> {
   late double height;
   late double width;
 
-  int pageIndex = 0;
-  List<Widget> pages = [];
-  final pageController = PageController(initialPage: 0);
+  late MainPageModel mainPageModel;
 
   @override
   Widget build(BuildContext context) {
+    mainPageModel = MainPageModel();
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    pages.add(ChatsPage());
-    pages.add(PeoplePage());
-    pages.add(SettingPage());
+    mainPageModel.pages.add(ChatsPage());
+    mainPageModel.pages.add(PeoplePage());
+    mainPageModel.pages.add(SettingPage());
 
     return buildPagesUI(context);
   }
@@ -33,13 +33,13 @@ class _MainPageState extends State<MainPage> {
   Widget buildPagesUI(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: pageIndex,
+        currentIndex: mainPageModel.pageIndex,
         onTap: (value) {
-          pageController.animateToPage(value,
+          mainPageModel.pageController.animateToPage(value,
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeInOut);
           setState(() {
-            pageIndex = value;
+            mainPageModel.pageIndex = value;
           });
         },
         selectedItemColor: Colors.deepPurple[50],
@@ -56,8 +56,8 @@ class _MainPageState extends State<MainPage> {
       ),
       body: PageView(
           physics: const NeverScrollableScrollPhysics(),
-          controller: pageController,
-          children: pages),
+          controller: mainPageModel.pageController,
+          children: mainPageModel.pages),
     );
   }
 }

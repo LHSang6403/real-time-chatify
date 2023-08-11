@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:real_time_chatify/models/user.dart';
+import 'package:real_time_chatify/pages/people_page/model/user.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
+import 'package:real_time_chatify/pages/people_page/viewModel/people_page_controller.dart';
 import 'package:real_time_chatify/pages/people_page/viewModel/people_page_provider.dart';
 import 'package:real_time_chatify/widgets/custom_person_tile.dart';
 import 'package:real_time_chatify/widgets/custom_search.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
-import 'package:real_time_chatify/widgets/topbar.dart';
+import 'package:real_time_chatify/widgets/top_bar.dart';
 
 class PeoplePage extends StatefulWidget {
   const PeoplePage({Key? key}) : super(key: key);
@@ -22,11 +23,13 @@ class _PeoplePageState extends State<PeoplePage>
 
   late AuthenticationProvider auth;
   late PeoplePageProvider peoplePageProvider;
-  final TextEditingController searchController = TextEditingController();
+
+  late PeoplePageController peoplePageController;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    peoplePageController = PeoplePageController();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     auth = Provider.of<AuthenticationProvider>(context);
@@ -43,7 +46,7 @@ class _PeoplePageState extends State<PeoplePage>
       return GestureDetector(
         onTap: () {
           FocusManager.instance.primaryFocus!.unfocus();
-          searchController.clear();
+          peoplePageController.searchController.clear();
           peoplePageProvider.getUsers();
         },
         child: Scaffold(
@@ -69,14 +72,14 @@ class _PeoplePageState extends State<PeoplePage>
               SizedBox(
                 width: width * 0.9,
                 height: height * 0.06,
-                child: CustomSearch(
+                child: CustomSearchBar(
                     onComplete: (value) {
                       peoplePageProvider.getUsers(name: value);
                       //FocusScope.of(context).unfocus();
                     },
                     hintText: "Search...",
                     obscureText: false,
-                    textController: searchController),
+                    textController: peoplePageController.searchController),
               ),
               SizedBox(
                 height: height * 0.02,
@@ -97,47 +100,49 @@ class _PeoplePageState extends State<PeoplePage>
     List<ChatUser> users = peoplePageProvider.users;
 
     return Expanded(
-      child: () {
-        if (users != null) {
-          if (users.isNotEmpty) {
-            return RefreshIndicator(
-              key: UniqueKey(),
-              color: const Color.fromRGBO(36, 35, 49, 1.0),
-              backgroundColor: Colors.white,
-              strokeWidth: 4.0,
-              onRefresh: () async {
-                peoplePageProvider.getUsers();
-              },
-              child: ListView.builder(
-                itemCount: users.length,
-                padding: EdgeInsets.zero,
-                itemBuilder: (context, index) {
-                  return CustomPersonTile(
-                    height: height,
-                    width: width,
-                    name: users[index].name,
-                    imgUrl: users[index].imageUrl,
-                    isActive: users[index].wasRecentlyActive(),
-                    isSelected:
-                        peoplePageProvider.selectedUsers.contains(users[index]),
-                    onTap: () {
-                      peoplePageProvider.updateSelectedUsers(users[index]);
-                    },
-                  );
-                },
-              ),
-            );
-          } else {
-            return const Center(
-              child: Text("No users found"),
-            );
-          }
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      }(),
+      child: RefreshIndicator(
+        key: UniqueKey(),
+        color: const Color.fromRGBO(36, 35, 49, 1.0),
+        backgroundColor: Colors.white,
+        strokeWidth: 4.0,
+        onRefresh: () async {
+          peoplePageProvider.getUsers();
+          print('refresh done');
+        },
+        child: Column(
+          children: [
+            Expanded(child: () {
+              return users != null
+                  ? users.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: users.length,
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (context, index) {
+                            return CustomPersonTile(
+                              height: height,
+                              width: width,
+                              name: users[index].name,
+                              imgUrl: users[index].imageUrl,
+                              isActive: users[index].wasRecentlyActive(),
+                              isSelected: peoplePageProvider.selectedUsers
+                                  .contains(users[index]),
+                              onTap: () {
+                                peoplePageProvider
+                                    .updateSelectedUsers(users[index]);
+                              },
+                            );
+                          },
+                        )
+                      : const Center(
+                          child: Text("No users found"),
+                        )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    );
+            }())
+          ],
+        ),
+      ),
     );
   }
 

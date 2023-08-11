@@ -11,7 +11,7 @@ import 'package:real_time_chatify/widgets/dialogs/android_dialog.dart';
 import 'package:real_time_chatify/widgets/dialogs/ios_dialog.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';
 import 'package:real_time_chatify/widgets/custom_tap_setting_tile.dart';
-import 'package:real_time_chatify/widgets/topbar.dart';
+import 'package:real_time_chatify/widgets/top_bar.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -139,7 +139,7 @@ class _SettingPageState extends State<SettingPage>
         buttonState: false,
         onChanged: () {
           sharedPreference.writeBoolToLocal('notifications', false);
-          PlatformManager.isIOS()
+          PlatformService.isIOS()
               ? IOSAlertDialog.show(
                   context, "Alert", "This function is not supported", () {})
               : AndroidAlertDialog.show(
@@ -167,7 +167,7 @@ class _SettingPageState extends State<SettingPage>
         settingName: 'Log Out',
         isSwitch: false,
         onTap: () {
-          PlatformManager.isIOS()
+          PlatformService.isIOS()
               ? IOSAlertDialog.show(context, "Log out",
                   "Do you want to log out?", () => auth.logOut())
               : AndroidAlertDialog.show(context, "Log out",

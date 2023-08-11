@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:real_time_chatify/models/message.dart';
+import 'package:real_time_chatify/pages/chat_page/model/message.dart';
 
 class ImageMessageBubble extends StatelessWidget {
   final bool isMe;

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:real_time_chatify/models/user.dart';
+import 'package:real_time_chatify/pages/people_page/model/user.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
 import 'package:real_time_chatify/services/database_service.dart';
 

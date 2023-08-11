@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomBottomSheet {
-  static void showAdd(BuildContext context, double height, double width,
+  static void showSheet(BuildContext context, double height, double width,
       String title, List<Widget> children) {
     showModalBottomSheet<void>(
       context: context,

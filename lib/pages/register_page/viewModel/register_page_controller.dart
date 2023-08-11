@@ -1,31 +1,30 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
+import 'package:real_time_chatify/pages/register_page/model/register_page_model.dart';
 
-class RegisterController extends GetxController {
-  String email = "";
-  String password = "";
-  String name = "";
+class RegisterPageController extends GetxController {
+  RegisterPageModel registerPageModel = RegisterPageModel();
   Rx<PlatformFile?> profileImage = Rx<PlatformFile?>(null);
 
   void setEmail(String value) {
-    email = value;
+    registerPageModel.email = value;
   }
 
   void setName(String value) {
-    name = value;
+    registerPageModel.name = value;
   }
 
   void setPassword(String value) {
-    password = value;
+    registerPageModel.password = value;
   }
 
   void setProfileImage(PlatformFile value) {
     profileImage.value = value;
   }
 
-  String getEmail() => email;
-  String getPassword() => password;
-  String getName() => name;
+  String getEmail() => registerPageModel.email;
+  String getPassword() => registerPageModel.password;
+  String getName() => registerPageModel.name;
 
   PlatformFile getProfileImage() {
     if (profileImage.value == null) {

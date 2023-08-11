@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:real_time_chatify/models/message.dart';
+import 'package:real_time_chatify/pages/chat_page/model/message.dart';
 
 const String USER_COLLECTION = 'Users';
 const String MESSAGES_COLLECTION = 'messages';

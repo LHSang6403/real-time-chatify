@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:real_time_chatify/pages/register_page/viewModel/register_controller.dart';
+import 'package:real_time_chatify/pages/register_page/viewModel/register_page_controller.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
 import 'package:real_time_chatify/services/cloud_storage_service.dart';
 import 'package:real_time_chatify/services/database_service.dart';
@@ -28,9 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late CloudStorageService cloudStorageService;
   late NavigationService navigationService;
 
-  //final RegisterController registerController = Get.find();
-  final registerFormKey = GlobalKey<FormState>();
-  final registerController = Get.put(RegisterController());
+  final registerPageController = Get.put(RegisterPageController());
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +74,12 @@ class _RegisterPageState extends State<RegisterPage> {
     return GestureDetector(
       onTap: () {
         GetIt.instance.get<MediaService>().getImgFromLibrary().then((file) {
-          registerController.setProfileImage(file!);
+          registerPageController.setProfileImage(file!);
         });
       },
       child: () {
         return Obx(() => AssetRoundedImage(
-            profileImage: registerController.getProfileImage(),
+            profileImage: registerPageController.getProfileImage(),
             imageSize: height * 0.15));
       }(),
     );
@@ -91,14 +89,14 @@ class _RegisterPageState extends State<RegisterPage> {
     return SizedBox(
       height: height * 0.35,
       child: Form(
-          key: registerFormKey,
+          key: registerPageController.registerPageModel.registerFormKey,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomTextField(
                 onSaved: (value) {
-                  registerController.setName(value);
+                  registerPageController.setName(value);
                 },
                 regEx: r'^[a-zA-ZÀ-ÿ\s]{1,50}$',
                 hintText: "Enter your name",
@@ -109,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               CustomTextField(
                 onSaved: (value) {
-                  registerController.setEmail(value);
+                  registerPageController.setEmail(value);
                 },
                 regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                 hintText: "Enter your email",
@@ -120,7 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               CustomTextField(
                 onSaved: (value) {
-                  registerController.setPassword(value);
+                  registerPageController.setPassword(value);
                 },
                 regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
                 hintText: "Enter your password",
@@ -137,24 +135,28 @@ class _RegisterPageState extends State<RegisterPage> {
         height: height * 0.065,
         width: width * 0.65,
         onPressed: () async {
-          if (registerFormKey.currentState!.validate()) {
-            registerFormKey.currentState!.save();
+          if (registerPageController
+              .registerPageModel.registerFormKey.currentState!
+              .validate()) {
+            registerPageController
+                .registerPageModel.registerFormKey.currentState!
+                .save();
 
             String? userId = await authService.registerUser(
-                registerController.getEmail(),
-                registerController.getPassword());
+                registerPageController.getEmail(),
+                registerPageController.getPassword());
             String? imgUrl = await cloudStorageService.saveUserImgToStorage(
-                userId!, registerController.getProfileImage());
+                userId!, registerPageController.getProfileImage());
             await databaseService.createUser(
                 userId,
-                registerController.getEmail(),
-                registerController.getName(),
+                registerPageController.getEmail(),
+                registerPageController.getName(),
                 imgUrl!);
             await authService.logOut();
             await authService.loginUsingEmailAndPassword(
-                registerController.getEmail(),
-                registerController.getPassword());
-            //_navigationService.routeBack();
+                registerPageController.getEmail(),
+                registerPageController.getPassword());
+            navigationService.routeBack();
           }
         });
   }

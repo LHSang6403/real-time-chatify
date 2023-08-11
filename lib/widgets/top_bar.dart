@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class TopBar extends StatelessWidget {
   String title;
   Widget? action1;

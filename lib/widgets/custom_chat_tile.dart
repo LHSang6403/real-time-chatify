@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:real_time_chatify/models/message.dart';
-import 'package:real_time_chatify/models/user.dart';
+import 'package:real_time_chatify/pages/chat_page/model/message.dart';
+import 'package:real_time_chatify/pages/people_page/model/user.dart';
 import 'package:real_time_chatify/widgets/image_message_bubble.dart';
 import 'package:real_time_chatify/widgets/text_message_bubble.dart';
 import 'package:real_time_chatify/widgets/rounded_image.dart';

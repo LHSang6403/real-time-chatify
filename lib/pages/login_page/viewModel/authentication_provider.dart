@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:real_time_chatify/models/user.dart';
+import 'package:real_time_chatify/pages/people_page/model/user.dart';
 import 'package:real_time_chatify/services/database_service.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
 import 'package:real_time_chatify/services/shared_preference_service.dart';
@@ -66,7 +66,6 @@ class AuthenticationProvider extends ChangeNotifier {
       String _email, String _password) async {
     try {
       await auth.signInWithEmailAndPassword(email: _email, password: _password);
-      //print(auth.currentUser);
     } on FirebaseAuthException {
       print('Failed to sign in Firebase with Email & Password');
     } catch (e) {
@@ -93,6 +92,4 @@ class AuthenticationProvider extends ChangeNotifier {
     }
     return null;
   }
-
-  void signOut() {}
 }

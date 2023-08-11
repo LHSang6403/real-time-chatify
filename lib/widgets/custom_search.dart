@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
-class CustomSearch extends StatelessWidget {
+class CustomSearchBar extends StatelessWidget {
   final Function(String) onComplete;
   final String hintText;
   final bool obscureText;
   final TextEditingController textController;
   IconData? icon;
 
-  CustomSearch(
+  CustomSearchBar(
       {required this.onComplete,
       required this.hintText,
       required this.obscureText,

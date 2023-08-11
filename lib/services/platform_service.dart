@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
 
-class PlatformManager {
+class PlatformService {
   static bool isIOS() {
     return Platform.isIOS;
   }
