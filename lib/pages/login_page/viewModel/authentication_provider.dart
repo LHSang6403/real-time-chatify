@@ -29,7 +29,7 @@ class AuthenticationProvider extends ChangeNotifier {
 
     auth.authStateChanges().listen((user) {
       if (user != null) {
-        databaseService.updateUserLastSeenTime(user.uid);
+        databaseService.updateUserLastActiveTime(user.uid);
 
         chatUser = ChatUser.fromJSON(
           {
@@ -66,7 +66,7 @@ class AuthenticationProvider extends ChangeNotifier {
       String _email, String _password) async {
     try {
       await auth.signInWithEmailAndPassword(email: _email, password: _password);
-      print(auth.currentUser);
+      //print(auth.currentUser);
     } on FirebaseAuthException {
       print('Failed to sign in Firebase with Email & Password');
     } catch (e) {

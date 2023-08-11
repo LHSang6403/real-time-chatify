@@ -33,11 +33,7 @@ class ChatUser {
     };
   }
 
-  String lastTimeActive() {
-    return '${lastActive.toDate().month}/${lastActive.toDate().day}/${lastActive.toDate().year}';
-  }
-
   bool wasRecentlyActive() {
-    return DateTime.now().difference(lastActive.toDate()).inHours < 1;
+    return DateTime.now().difference(lastActive.toDate()).inMinutes < 5;
   }
 }

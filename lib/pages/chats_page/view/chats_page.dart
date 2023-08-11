@@ -102,32 +102,23 @@ class _ChatsPageState extends State<ChatsPage>
 
     return Expanded(
       child: () {
-        return RefreshIndicator(
-            key: UniqueKey(),
-            color: Colors.blue,
-            backgroundColor: Colors.white,
-            strokeWidth: 4.0,
-            onRefresh: () async {
-              chatsPageProvider.getChats();
-              return Future.delayed(const Duration(seconds: 5));
-            },
-            child: chats != null
-                ? chats.isNotEmpty
-                    ? ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: chats.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return chatTile(chats[index], height, width, index);
-                        },
-                      )
-                    : const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      )
+        return chats != null
+            ? chats.isNotEmpty
+                ? ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: chats.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return chatTile(chats[index], height, width, index);
+                    },
+                  )
                 : const Center(
-                    child: Text("No chat"),
-                  ));
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  )
+            : const Center(
+                child: Text("No chat"),
+              );
       }(),
     );
   }

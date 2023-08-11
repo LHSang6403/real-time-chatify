@@ -100,23 +100,32 @@ class _PeoplePageState extends State<PeoplePage>
       child: () {
         if (users != null) {
           if (users.isNotEmpty) {
-            return ListView.builder(
-              itemCount: users.length,
-              padding: EdgeInsets.zero,
-              itemBuilder: (context, index) {
-                return CustomPersonTile(
-                  height: height,
-                  width: width,
-                  name: users[index].name,
-                  imgUrl: users[index].imageUrl,
-                  isActive: users[index].wasRecentlyActive(),
-                  isSelected:
-                      peoplePageProvider.selectedUsers.contains(users[index]),
-                  onTap: () {
-                    peoplePageProvider.updateSelectedUsers(users[index]);
-                  },
-                );
+            return RefreshIndicator(
+              key: UniqueKey(),
+              color: const Color.fromRGBO(36, 35, 49, 1.0),
+              backgroundColor: Colors.white,
+              strokeWidth: 4.0,
+              onRefresh: () async {
+                peoplePageProvider.getUsers();
               },
+              child: ListView.builder(
+                itemCount: users.length,
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) {
+                  return CustomPersonTile(
+                    height: height,
+                    width: width,
+                    name: users[index].name,
+                    imgUrl: users[index].imageUrl,
+                    isActive: users[index].wasRecentlyActive(),
+                    isSelected:
+                        peoplePageProvider.selectedUsers.contains(users[index]),
+                    onTap: () {
+                      peoplePageProvider.updateSelectedUsers(users[index]);
+                    },
+                  );
+                },
+              ),
             );
           } else {
             return const Center(

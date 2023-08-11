@@ -48,40 +48,48 @@ class _ConversationPageState extends State<ConversationPage> {
   Widget buildUI(BuildContext context) {
     return Builder(builder: (BuildContext context) {
       chatProvider = context.watch<ConversationProvider>();
-      return Scaffold(
-          body: Container(
-              height: height,
-              width: width * 0.97,
-              padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.03, vertical: height * 0.02),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TopBar(
-                    title: widget.chat.getChatName(),
-                    action1: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.call,
-                          color: Colors.white60,
-                        )),
-                    action2: IconButton(
-                        onPressed: () {
-                          chatProvider.navigationService.routeBack();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        )),
-                    fontSize: width * 0.05,
-                    isCentered: true,
-                  ),
-                  messagesListUI(),
-                  bottomForm(),
-                ],
-              )));
+      return GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
+        child: Scaffold(
+            body: Container(
+                height: height,
+                width: width * 0.97,
+                padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.03, vertical: height * 0.02),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TopBar(
+                      title: widget.chat.getChatName(),
+                      action1: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.call,
+                            color: Colors.white60,
+                          )),
+                      action2: IconButton(
+                          onPressed: () {
+                            chatProvider.navigationService.routeBack();
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          )),
+                      fontSize: width * 0.05,
+                      isCentered: true,
+                    ),
+                    Divider(
+                      height: height * 0.004,
+                      color: Colors.white60,
+                      thickness: 0.5,
+                    ),
+                    messagesListUI(),
+                    bottomForm(),
+                  ],
+                ))),
+      );
     });
   }
 
@@ -131,7 +139,7 @@ class _ConversationPageState extends State<ConversationPage> {
       width: width * 0.9,
       decoration: BoxDecoration(
           color: const Color.fromARGB(255, 31, 29, 42),
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(22)),
       child: Form(
         key: msgFormKey,
         child: Row(

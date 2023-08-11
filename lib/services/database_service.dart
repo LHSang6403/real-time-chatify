@@ -58,7 +58,7 @@ class DatabaseService {
         .get();
   }
 
-  Future<void> updateUserLastSeenTime(String userId) async {
+  Future<void> updateUserLastActiveTime(String userId) async {
     try {
       await db.collection(USER_COLLECTION).doc(userId).update({
         'last_active': Timestamp.now(),
