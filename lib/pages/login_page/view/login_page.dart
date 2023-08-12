@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:real_time_chatify/pages/login_page/model/login_page_model.dart';
 import 'package:real_time_chatify/pages/login_page/viewModel/authentication_provider.dart';
-import 'package:real_time_chatify/pages/login_page/viewModel/login_page_controller.dart';
 import 'package:real_time_chatify/services/navigation_service.dart';
 import 'package:real_time_chatify/widgets/custom_input_fields.dart';
 import 'package:real_time_chatify/widgets/rounded_button.dart';
@@ -21,7 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   late NavigationService nav;
 
   late LoginPageModel loginPageModel;
-  late LoginPageController loginPageController;
 
   @override
   void initState() {
@@ -31,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     loginPageModel = LoginPageModel();
-    loginPageController = LoginPageController();
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     auth = Provider.of<AuthenticationProvider>(context);
@@ -57,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: height * 0.04),
               loginForm(),
               SizedBox(height: height * 0.04),
-              buttonLogin(),
+              //buttonLogin(),
               SizedBox(height: height * 0.04),
               registerAccountLink(),
             ],
@@ -80,47 +77,52 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget loginForm() {
     return SizedBox(
-      height: height * 0.2,
+      height: height * 0.25,
       child: Form(
-          key: loginPageController.loginFormKey,
+          //key: loginPageController.loginFormKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              CustomTextField(
-                onSaved: (value) {
-                  loginPageModel.email = value;
-                },
-                regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                hintText: 'Email',
-                obscureText: false,
-              ),
-              CustomTextField(
-                onSaved: (value) {
-                  loginPageModel.password = value;
-                },
-                regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
-                hintText: 'Password',
-                obscureText: true,
-              ),
-            ],
-          )),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          CustomTextField(
+            onSaved: (value) {
+              loginPageModel.email = value;
+            },
+            regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+            hintText: 'Email',
+            obscureText: false,
+          ),
+          CustomTextField(
+            onSaved: (value) {
+              loginPageModel.password = value;
+            },
+            regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
+            hintText: 'Password',
+            obscureText: true,
+          ),
+          buttonLogin(context)
+        ],
+      )),
     );
   }
 
-  Widget buttonLogin() {
-    return RoundedButton(
-        buttonName: "Login",
-        height: height * 0.055,
-        width: width * 0.4,
-        onPressed: () {
-          if (loginPageController.loginFormKey.currentState!.validate()) {
-            loginPageController.loginFormKey.currentState!.save();
-            auth.loginUsingEmailAndPassword(
-                loginPageModel.email!, loginPageModel.password!);
-          }
-        });
+  Widget buttonLogin(BuildContext context) {
+    return Builder(
+      builder: (context) {
+        return RoundedButton(
+            buttonName: "Login",
+            height: height * 0.055,
+            width: width * 0.4,
+            onPressed: () {
+              if (Form.of(context).validate()) {
+                Form.of(context).save();
+                auth.loginUsingEmailAndPassword(
+                    loginPageModel.email!, loginPageModel.password!);
+              }
+            });
+      },
+    );
   }
 
   Widget registerAccountLink() {

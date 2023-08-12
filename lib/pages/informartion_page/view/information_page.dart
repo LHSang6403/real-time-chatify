@@ -16,7 +16,7 @@ class InformationPage extends StatelessWidget {
 
   InformationModel informationModel = InformationModel(
       "Real time Chatify",
-      "Version 0.0.4",
+      "Version 0.1.4",
       "assets/images/app_logo.png",
       "Sang Le",
       "assets/images/unknown_him.png",

@@ -25,35 +25,30 @@ class CustomChatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.only(bottom: 10),
-        width: width,
-        child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment:
-                isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-            children: [
-              !isMe
-                  ? NetworkRoundedImage(
-                      imagePath: sender.imageUrl, imageSize: width * 0.06)
-                  : const SizedBox(
-                      height: 10,
-                      width: 10,
-                    ),
-              SizedBox(
-                width: width * 0.04,
-              ),
-              message.type == MessageType.text
-                  ? TextMessageBubble(
-                      isMe: isMe,
-                      message: message,
-                      height: height,
-                      width: width)
-                  : ImageMessageBubble(
-                      isMe: isMe,
-                      message: message,
-                      height: height,
-                      width: width),
-            ]));
+      padding: const EdgeInsets.only(bottom: 10),
+      width: width,
+      child: Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment:
+              isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+          children: [
+            !isMe
+                ? NetworkRoundedImage(
+                    imagePath: sender.imageUrl, imageSize: width * 0.06)
+                : const SizedBox(
+                    height: 10,
+                    width: 10,
+                  ),
+            SizedBox(
+              width: width * 0.04,
+            ),
+            message.type == MessageType.text
+                ? TextMessageBubble(
+                    isMe: isMe, message: message, height: height, width: width)
+                : ImageMessageBubble(
+                    isMe: isMe, message: message, height: height, width: width),
+          ]),
+    );
   }
 }

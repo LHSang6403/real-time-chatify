@@ -40,7 +40,7 @@ class AuthenticationProvider extends ChangeNotifier {
             "imgUrl": user.photoURL,
           },
         );
-        navigationService.route('/main');
+        navigationService.removeAndRoute('/main');
         print('Logged in');
       } else {
         print('Not logged in');
@@ -62,10 +62,9 @@ class AuthenticationProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> loginUsingEmailAndPassword(
-      String _email, String _password) async {
+  Future<void> loginUsingEmailAndPassword(String email, String password) async {
     try {
-      await auth.signInWithEmailAndPassword(email: _email, password: _password);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException {
       print('Failed to sign in Firebase with Email & Password');
     } catch (e) {

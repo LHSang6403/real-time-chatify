@@ -54,18 +54,11 @@ class _RegisterPageState extends State<RegisterPage> {
           width: width * 0.97,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: height * 0.2),
               profileImageField(),
-              SizedBox(
-                height: height * 0.0005,
-              ),
               registerForm(),
-              SizedBox(
-                height: height * 0.0005,
-              ),
-              registerButton(),
+              registerButton(context),
             ],
           ),
         ),
@@ -81,86 +74,86 @@ class _RegisterPageState extends State<RegisterPage> {
         });
       },
       child: () {
-        return Obx(() => AssetRoundedImage(
-            profileImage: registerPageController.getProfileImage(),
-            imageSize: height * 0.15));
+        return Obx(
+          () => AssetRoundedImage(
+              profileImage: registerPageController.getProfileImage(),
+              imageSize: height * 0.15),
+        );
       }(),
     );
   }
 
   Widget registerForm() {
     return SizedBox(
-      height: height * 0.35,
+      height: height * 0.28,
       child: Form(
-          key: registerPageController.registerPageModel.registerFormKey,
+          //key: registerPageController.registerPageModel.registerFormKey,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomTextField(
-                onSaved: (value) {
-                  registerPageController.setName(value);
-                },
-                regEx: r'^[a-zA-ZÀ-ÿ\s]{1,50}$',
-                hintText: "Enter your name",
-                obscureText: false,
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              CustomTextField(
-                onSaved: (value) {
-                  registerPageController.setEmail(value);
-                },
-                regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                hintText: "Enter your email",
-                obscureText: false,
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              CustomTextField(
-                onSaved: (value) {
-                  registerPageController.setPassword(value);
-                },
-                regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
-                hintText: "Enter your password",
-                obscureText: true,
-              ),
-            ],
-          )),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CustomTextField(
+            onSaved: (value) {
+              registerPageController.setName(value);
+            },
+            regEx: r'^[a-zA-ZÀ-ÿ\s]{1,50}$',
+            hintText: "Enter your name",
+            obscureText: false,
+          ),
+          SizedBox(
+            height: height * 0.01,
+          ),
+          CustomTextField(
+            onSaved: (value) {
+              registerPageController.setEmail(value);
+            },
+            regEx: r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+            hintText: "Enter your email",
+            obscureText: false,
+          ),
+          SizedBox(
+            height: height * 0.01,
+          ),
+          CustomTextField(
+            onSaved: (value) {
+              registerPageController.setPassword(value);
+            },
+            regEx: r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
+            hintText: "Enter your password",
+            obscureText: true,
+          ),
+        ],
+      )),
     );
   }
 
-  Widget registerButton() {
-    return RoundedButton(
-        buttonName: 'Register',
-        height: height * 0.065,
-        width: width * 0.65,
-        onPressed: () async {
-          if (registerPageController
-              .registerPageModel.registerFormKey.currentState!
-              .validate()) {
-            registerPageController
-                .registerPageModel.registerFormKey.currentState!
-                .save();
+  Widget registerButton(BuildContext context) {
+    return Builder(builder: (context) {
+      return RoundedButton(
+          buttonName: 'Register',
+          height: height * 0.065,
+          width: width * 0.65,
+          onPressed: () async {
+            if (Form.of(context).validate()) {
+              Form.of(context).save();
 
-            String? userId = await authService.registerUser(
-                registerPageController.getEmail(),
-                registerPageController.getPassword());
-            String? imgUrl = await cloudStorageService.saveUserImgToStorage(
-                userId!, registerPageController.getProfileImage());
-            await databaseService.createUser(
-                userId,
-                registerPageController.getEmail(),
-                registerPageController.getName(),
-                imgUrl!);
-            await authService.logOut();
-            await authService.loginUsingEmailAndPassword(
-                registerPageController.getEmail(),
-                registerPageController.getPassword());
-            //navigationService.removeAndRoute("/login");
-          }
-        });
+              String? userId = await authService.registerUser(
+                  registerPageController.getEmail(),
+                  registerPageController.getPassword());
+              String? imgUrl = await cloudStorageService.saveUserImgToStorage(
+                  userId!, registerPageController.getProfileImage());
+              await databaseService.createUser(
+                  userId,
+                  registerPageController.getEmail(),
+                  registerPageController.getName(),
+                  imgUrl!);
+              await authService.logOut();
+              await authService.loginUsingEmailAndPassword(
+                  registerPageController.getEmail(),
+                  registerPageController.getPassword());
+              navigationService.removeAndRoute("/login");
+            }
+          });
+    });
   }
 }
