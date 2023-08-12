@@ -7,16 +7,16 @@ class CustomBottomSheet {
       context: context,
       builder: (BuildContext context) {
         return Container(
+          color: const Color.fromRGBO(40, 35, 49, 1.0),
           height: height,
           width: width,
-          color: Colors.yellow,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: TextStyle(
+                  fontSize: height * 0.08,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
                 ),

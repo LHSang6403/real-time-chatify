@@ -9,6 +9,7 @@ import "package:real_time_chatify/pages/login_page/viewModel/authentication_prov
 import "package:real_time_chatify/services/navigation_service.dart";
 import "package:real_time_chatify/widgets/bottom_sheet.dart";
 import 'package:real_time_chatify/widgets/custom_list_tile.dart';
+import "package:real_time_chatify/widgets/rounded_button.dart";
 import "package:real_time_chatify/widgets/rounded_image.dart";
 import 'package:real_time_chatify/widgets/top_bar.dart';
 
@@ -66,12 +67,27 @@ class _ChatsPageState extends State<ChatsPage>
                 action1: IconButton(
                   onPressed: () {
                     CustomBottomSheet.showSheet(
-                        context, height, width, "Your account", [
+                        context, height * 0.3, width, "Your account", [
                       NetworkRoundedImageWithStatus(
                         imagePath: chatsBottomBarProvider.myImg,
-                        imageSize: width * 0.1,
+                        imageSize: width * 0.15,
                         isActive: true,
-                      )
+                      ),
+                      SizedBox(height: height * 0.005),
+                      Text(
+                        chatsBottomBarProvider.myName,
+                        style: TextStyle(
+                          fontSize: height * 0.025,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: height * 0.02),
+                      RoundedButton(
+                          buttonName: "Change account",
+                          height: height * 0.05,
+                          width: width * 0.8,
+                          onPressed: () => auth.logOut()),
                     ]);
                   },
                   icon: chatsBottomBarProvider.myImg != ""

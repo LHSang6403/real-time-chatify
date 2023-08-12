@@ -57,6 +57,8 @@ class AuthenticationProvider extends ChangeNotifier {
   Future<void> logOut() async {
     try {
       await auth.signOut();
+      navigationService.routeBack();
+      navigationService.removeAndRoute('/login');
     } catch (e) {
       print(e);
     }
