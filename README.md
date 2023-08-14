@@ -3,4 +3,4 @@ This is my project to practice Flutter and Firebase serveice. I created this mob
   - Send chat & image
   - Create accounts, of course, register and log in/ out
   - State management
-  - Interract with Firebase Store and Firebase Authentication
+  - Interract with Firebase Store and Firebase Authentication, also refresh data
