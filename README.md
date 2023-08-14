@@ -19,13 +19,13 @@ This is my project to practice Flutter and Firebase serveice. I created this mob
   </tr>
   <tr>
     <td>
+      <img src="https://github.com/LHSang6403/real-time-chatify/assets/88763282/ce33e7c0-8d7b-490b-a164-7b7ccb37398b" alt="Image 3">
+    </td>
+    <td>
       <img src="https://github.com/LHSang6403/real-time-chatify/assets/88763282/3172f252-d962-49cc-bd1d-f1f16c2b820f" alt="Image 1">
     </td>
     <td>
       <img src="https://github.com/LHSang6403/real-time-chatify/assets/88763282/ceed52a3-a42f-4eee-97f6-86af05b9ffb3" alt="Image 2">
-    </td>
-    <td>
-      <img src="https://github.com/LHSang6403/real-time-chatify/assets/88763282/ce33e7c0-8d7b-490b-a164-7b7ccb37398b" alt="Image 3">
     </td>
   </tr>
 </table>
