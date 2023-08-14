@@ -1,2 +1,8 @@
 # real_time_chatify
-Introducing my second project: A hands-on exploration of Flutter and Firebase! With this project, I delve into the exciting world of app development using Flutter's powerful framework and Firebase's versatile backend services. This journey is a testament to my dedication in honing my skills as a developer. From crafting engaging user interfaces to implementing robust data management, this project showcases my growth and commitment to creating innovative solutions. Join me as I continue to harness the potential of Flutter and Firebase in this exciting venture!
+This is my project to practice Flutter and Firebase serveice. I created this mobile app which can send messages and images through multiple devices. There are some functions such as:
+  - Send chat & image
+  - Create accounts, of course, register and log in/ out
+  - State management
+  - Interract with Firebase Store and Firebase Authentication
+
+Some captures of my application:
