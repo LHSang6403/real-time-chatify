@@ -4,5 +4,3 @@ This is my project to practice Flutter and Firebase serveice. I created this mob
   - Create accounts, of course, register and log in/ out
   - State management
   - Interract with Firebase Store and Firebase Authentication
-
-Some captures of my application:
